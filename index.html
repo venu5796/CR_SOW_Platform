@@ -13,41 +13,65 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --navy:     #071525;
-  --navy2:    #0a1f36;
-  --navy3:    #0f2d4a;
-  --teal:     #00c2cb;
-  --teal-d:   #009fa8;
-  --blue:     #1a6ef5;
-  --blue-s:   rgba(26,110,245,0.1);
-  --bg:       #f2f5f9;
-  --surface:  #ffffff;
-  --surface2: #f7f9fc;
-  --border:   #e2e8f0;
-  --text:     #0f1f33;
-  --text2:    #4a5568;
+  --navy:     #080c14; /* Midnight */
+  --navy-g:   rgba(8, 12, 20, 0.85);
+  --mint:     #00f5d4; /* Vibrant Mint */
+  --mint-d:   #00d1b5;
+  --blue:     #3b82f6;
+  --blue-s:   rgba(59, 130, 246, 0.1);
+  --bg:       #f8fafc;
+  --surface:  rgba(255, 255, 255, 0.8);
+  --surface-solid: #ffffff;
+  --surface2: #f1f5f9;
+  --border:   rgba(0, 0, 0, 0.04);
+  --text:     #0f172a;
+  --text2:    #475569;
   --text3:    #94a3b8;
-  --green:    #059669;
-  --green-s:  rgba(5,150,105,0.1);
-  --amber:    #d97706;
-  --amber-s:  rgba(217,119,6,0.1);
-  --red:      #dc2626;
-  --red-s:    rgba(220,38,38,0.1);
-  --purple:   #7c3aed;
-  --purple-s: rgba(124,58,237,0.1);
-  --radius:   10px;
-  --sidebar-w: 256px;
-  /* Aliases for old form component compatibility */
-  --accent:   #1a6ef5;
-  --accent-h: #1460d0;
-  --accent-s: rgba(26,110,245,0.1);
-  --accent-t: rgba(26,110,245,0.15);
-  --border2:  #c7d0dc;
+  --green:    #10b981;
+  --green-s:  rgba(16, 185, 129, 0.1);
+  --amber:    #f59e0b;
+  --amber-s:  rgba(245, 158, 11, 0.1);
+  --red:      #ef4444;
+  --red-s:    rgba(239, 68, 68, 0.1);
+  --purple:   #8b5cf6;
+  --purple-s: rgba(139, 92, 246, 0.1);
+  --radius:   14px;
+  --sidebar-w: 260px;
+  /* Premium Shadows */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.04), 0 4px 6px -2px rgba(0,0,0,0.02);
+  --shadow-xl: 0 20px 40px -12px rgba(0,0,0,0.08);
+  
+  --accent:   var(--blue);
+  --accent-h: #2563eb;
+  --accent-s: var(--blue-s);
+  --accent-t: rgba(59, 130, 246, 0.15);
   --font-body: 'Outfit', sans-serif;
   --font-head: 'Sora', sans-serif;
 }
 
-body { font-family: var(--font-body); background: var(--bg); color: var(--text); }
+body { 
+  font-family: var(--font-body); 
+  background: var(--bg); 
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-in {
+  animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 #root { display: flex; height: 100vh; overflow: hidden; }
 
 /* ── SIDEBAR ── */
@@ -58,214 +82,241 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
   flex-direction: column;
   flex-shrink: 0;
   overflow: hidden;
-  transition: width 0.2s;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-right: 1px solid rgba(255,255,255,0.03);
 }
 .sidebar-logo {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 20px 18px 16px;
-  border-bottom: 1px solid rgba(255,255,255,0.07);
+  gap: 12px;
+  padding: 24px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 .sidebar-logo-mark {
-  width: 34px; height: 34px;
-  background: var(--teal);
-  border-radius: 8px;
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--mint) 0%, #00d1ff 100%);
+  border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
   font-family: var(--font-head);
-  font-weight: 700;
-  font-size: 16px;
+  font-weight: 800;
+  font-size: 18px;
   color: var(--navy);
+  box-shadow: 0 0 20px rgba(0, 245, 212, 0.3);
   flex-shrink: 0;
 }
-.sidebar-logo-text { font-family: var(--font-head); color: #fff; font-size: 14px; font-weight: 600; line-height: 1.2; }
-.sidebar-logo-sub { font-size: 10px; color: rgba(255,255,255,0.4); font-weight: 400; }
+.sidebar-logo-text { 
+  font-family: var(--font-head); 
+  color: #fff; 
+  font-size: 15px; 
+  font-weight: 700; 
+  line-height: 1.1; 
+  letter-spacing: -0.01em;
+}
+.sidebar-logo-sub { font-size: 10px; color: rgba(255,255,255,0.4); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
 
 .sidebar-section-label {
   font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: rgba(255,255,255,0.3);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.25);
   text-transform: uppercase;
-  padding: 16px 18px 6px;
+  padding: 24px 20px 8px;
 }
-.sidebar-nav { flex: 1; overflow-y: auto; padding-bottom: 12px; }
+.sidebar-nav { flex: 1; overflow-y: auto; padding: 0 10px 20px; }
 .sidebar-nav::-webkit-scrollbar { width: 4px; }
 .sidebar-nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
 
 .nav-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 18px;
+  gap: 12px;
+  padding: 10px 14px;
   cursor: pointer;
-  border-radius: 0;
-  font-size: 13px;
-  color: rgba(255,255,255,0.6);
-  transition: background 0.15s, color 0.15s;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.5);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   user-select: none;
-  position: relative;
+  margin-bottom: 2px;
 }
-.nav-item:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.9); }
-.nav-item.active { background: rgba(0,194,203,0.12); color: var(--teal); }
-.nav-item.active::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 3px;
-  background: var(--teal);
-  border-radius: 0 2px 2px 0;
+.nav-item:hover { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.9); }
+.nav-item.active { 
+  background: rgba(0, 245, 212, 0.08); 
+  color: var(--mint); 
+  box-shadow: inset 0 0 0 1px rgba(0, 245, 212, 0.1);
 }
-.nav-item-icon { width: 18px; height: 18px; flex-shrink: 0; opacity: 0.8; }
+.nav-item-icon { width: 20px; height: 20px; flex-shrink: 0; opacity: 0.6; transition: opacity 0.2s; }
 .nav-item.active .nav-item-icon { opacity: 1; }
-.nav-item-badge {
-  margin-left: auto;
-  font-size: 9px;
-  font-weight: 700;
-  padding: 2px 6px;
-  border-radius: 99px;
-  letter-spacing: 0.04em;
-}
 
 .sidebar-project-item {
   display: flex;
   align-items: center;
-  gap: 9px;
-  padding: 7px 18px 7px 14px;
+  gap: 10px;
+  padding: 8px 14px;
   cursor: pointer;
-  font-size: 12.5px;
-  color: rgba(255,255,255,0.5);
-  transition: background 0.15s, color 0.15s;
-  border-left: 2px solid transparent;
+  border-radius: 8px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.4);
+  transition: all 0.2s;
+  margin-bottom: 1px;
 }
-.sidebar-project-item:hover { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.8); }
-.sidebar-project-item.active { color: #fff; border-left-color: var(--teal); background: rgba(255,255,255,0.05); }
+.sidebar-project-item:hover { background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.8); }
+.sidebar-project-item.active { color: #fff; background: rgba(255,255,255,0.06); font-weight: 500; }
 .sidebar-project-dot {
-  width: 7px; height: 7px;
+  width: 6px; height: 6px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.15);
   flex-shrink: 0;
+  transition: transform 0.2s;
 }
-.sidebar-project-item.active .sidebar-project-dot { background: var(--teal); }
+.sidebar-project-item.active .sidebar-project-dot { background: var(--mint); transform: scale(1.2); box-shadow: 0 0 8px var(--mint); }
 .sidebar-project-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.sidebar-project-count { font-size: 10px; background: rgba(255,255,255,0.08); border-radius: 99px; padding: 1px 6px; flex-shrink: 0; }
+.sidebar-project-count { font-size: 10px; background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.4); border-radius: 6px; padding: 1px 6px; flex-shrink: 0; }
 
 .sidebar-new-project {
-  margin: 6px 14px 0;
+  margin: 10px 10px 0;
   display: flex;
   align-items: center;
-  gap: 7px;
-  padding: 7px 12px;
-  border-radius: 7px;
-  background: rgba(0,194,203,0.1);
-  border: 1px dashed rgba(0,194,203,0.3);
-  color: rgba(0,194,203,0.8);
-  font-size: 12px;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.03);
+  border: 1px dashed rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.4);
+  font-size: 13px;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0.2s;
 }
-.sidebar-new-project:hover { background: rgba(0,194,203,0.18); color: var(--teal); border-color: rgba(0,194,203,0.5); }
+.sidebar-new-project:hover { background: rgba(255,255,255,0.06); color: #fff; border-color: rgba(255,255,255,0.2); }
 
 .sidebar-footer {
-  border-top: 1px solid rgba(255,255,255,0.07);
-  padding: 12px 18px;
-  font-size: 10px;
-  color: rgba(255,255,255,0.25);
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding: 16px 20px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.2);
+  font-weight: 500;
 }
 
 /* ── MAIN ── */
-.main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+.main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; background: var(--bg); }
 .topbar {
-  background: var(--surface);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
-  padding: 0 28px;
-  height: 56px;
+  padding: 0 32px;
+  height: 64px;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   flex-shrink: 0;
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 100;
 }
-.topbar-breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text2); flex: 1; }
-.topbar-breadcrumb span { color: var(--text3); }
-.topbar-breadcrumb a { color: var(--text2); cursor: pointer; }
-.topbar-breadcrumb a:hover { color: var(--blue); }
-.topbar-breadcrumb strong { color: var(--text); font-weight: 600; }
-.topbar-actions { display: flex; gap: 8px; align-items: center; }
+.topbar-breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text2); flex: 1; font-weight: 500; }
+.topbar-breadcrumb span { color: var(--text3); font-weight: 400; }
+.topbar-breadcrumb a { color: var(--text2); cursor: pointer; text-decoration: none; transition: color 0.2s; }
+.topbar-breadcrumb a:hover { color: var(--mint-d); }
+.topbar-breadcrumb strong { color: var(--text); font-weight: 700; letter-spacing: -0.01em; }
+.topbar-actions { display: flex; gap: 10px; align-items: center; }
 
-.page-body { padding: 28px; flex: 1; }
+.page-body { padding: 40px 32px; flex: 1; width: 100%; }
 
 /* ── BUTTONS ── */
 .btn {
-  display: inline-flex; align-items: center; gap: 7px;
-  padding: 9px 18px;
-  border-radius: 8px;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 20px;
+  border-radius: 12px;
   border: none;
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
+  box-shadow: var(--shadow-sm);
 }
-.btn-primary { background: var(--blue); color: #fff; }
-.btn-primary:hover { background: #1460d0; }
-.btn-secondary { background: var(--surface); color: var(--text2); border: 1px solid var(--border); }
-.btn-secondary:hover { background: var(--bg); color: var(--text); }
-.btn-ghost { background: none; color: var(--text2); border: 1px solid transparent; }
-.btn-ghost:hover { background: var(--bg); }
-.btn-teal { background: var(--teal); color: var(--navy); }
-.btn-teal:hover { background: var(--teal-d); }
-.btn-danger { background: var(--red-s); color: var(--red); border: 1px solid rgba(220,38,38,0.2); }
-.btn-danger:hover { background: rgba(220,38,38,0.2); }
-.btn-sm { padding: 6px 12px; font-size: 12px; }
-.btn-xs { padding: 4px 8px; font-size: 11px; border-radius: 6px; }
-.btn-icon { width: 34px; height: 34px; padding: 0; justify-content: center; border-radius: 8px; }
-.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-primary { background: var(--text); color: #fff; }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); background: #000; }
+.btn-secondary { background: #fff; color: var(--text2); border: 1px solid var(--border); }
+.btn-secondary:hover { background: var(--surface2); color: var(--text); border-color: rgba(0,0,0,0.1); }
+.btn-teal { background: var(--mint); color: var(--navy); }
+.btn-teal:hover { background: var(--mint-d); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0, 245, 212, 0.2); }
+.btn-icon { width: 40px; height: 40px; padding: 0; justify-content: center; border-radius: 12px; }
 
 /* ── CARDS ── */
 .card {
-  background: var(--surface);
+  background: var(--surface-solid);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.card-hover { transition: box-shadow 0.15s, transform 0.15s; cursor: pointer; }
-.card-hover:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); transform: translateY(-1px); }
+.card-hover:hover { 
+  box-shadow: var(--shadow-xl); 
+  transform: translateY(-4px); 
+  border-color: rgba(0,0,0,0.06);
+}
 
 /* ── DASHBOARD ── */
-.dash-header { margin-bottom: 28px; }
-.dash-title { font-family: var(--font-head); font-size: 24px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-.dash-sub { font-size: 14px; color: var(--text2); }
-
-.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 28px; }
-.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 20px; }
-.stat-value { font-family: var(--font-head); font-size: 28px; font-weight: 700; color: var(--text); line-height: 1; margin-bottom: 4px; }
-.stat-label { font-size: 12px; color: var(--text2); font-weight: 500; }
-.stat-change { font-size: 11px; margin-top: 6px; }
-
-.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-.section-title { font-family: var(--font-head); font-size: 16px; font-weight: 600; color: var(--text); }
-
-.projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
-.project-card { padding: 18px 20px; }
-.project-card-client { font-size: 11px; color: var(--text3); font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
-.project-card-name { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 12px; line-height: 1.3; }
-.project-card-meta { display: flex; align-items: center; justify-content: space-between; }
-.project-card-docs { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
-.doc-type-pill {
-  display: inline-flex; align-items: center; gap: 4px;
-  font-size: 10px; font-weight: 600;
-  padding: 3px 8px;
-  border-radius: 99px;
-  letter-spacing: 0.03em;
+.dash-header { margin-bottom: 40px; }
+.dash-title { 
+  font-family: var(--font-head); 
+  font-size: 32px; 
+  font-weight: 800; 
+  color: var(--text); 
+  margin-bottom: 8px; 
+  letter-spacing: -0.03em;
 }
-.pill-acquia { background: rgba(0,194,203,0.12); color: var(--teal-d); }
+.dash-sub { font-size: 16px; color: var(--text2); font-weight: 400; }
+
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 40px; }
+.stat-card { 
+  background: #fff; 
+  border: 1px solid var(--border); 
+  border-radius: var(--radius); 
+  padding: 24px; 
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.stat-value { 
+  font-family: var(--font-head); 
+  font-size: 32px; 
+  font-weight: 800; 
+  color: var(--text); 
+  line-height: 1; 
+  margin-bottom: 8px; 
+  letter-spacing: -0.02em;
+}
+.stat-label { font-size: 13px; color: var(--text3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+.stat-change { font-size: 12px; margin-top: 8px; font-weight: 500; }
+
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.section-title { font-family: var(--font-head); font-size: 18px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+.project-card { padding: 24px; }
+.project-card-client { font-size: 11px; color: var(--text3); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+.project-card-name { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 16px; line-height: 1.4; letter-spacing: -0.01em; }
+.project-card-meta { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+.project-card-docs { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.doc-type-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 8px;
+  letter-spacing: 0.02em;
+}
+.pill-acquia { background: rgba(0, 245, 212, 0.1); color: #00b09b; }
 .pill-cd { background: var(--blue-s); color: var(--blue); }
 .pill-cr { background: var(--purple-s); color: var(--purple); }
-.project-card-date { font-size: 11px; color: var(--text3); }
+.project-card-date { font-size: 12px; color: var(--text3); font-weight: 500; }
 .project-empty-state {
   grid-column: 1 / -1;
   text-align: center;
@@ -405,16 +456,65 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
 .form-wrapper { flex: 1; display: flex; flex-direction: column; }
 
 /* Carry-forward styles for old form components */
-.split-layout{display:flex;height:100%;overflow:hidden;}
-.form-panel{flex:1;overflow-y:auto;padding:0 28px;}
-.preview-panel{width:480px;min-width:480px;max-width:480px;flex-shrink:0;background:#f8fafc;border-left:1px solid var(--border);overflow-y:auto;display:flex;flex-direction:column;}
-.preview-panel.hidden{display:none;}
-.preview-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px;border-bottom:1px solid var(--border);flex-shrink:0;}
-.preview-header-label{font-size:11px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--text3);}
-.preview-toggle-btn{display:none;align-items:center;gap:6px;padding:5px 10px;border-radius:6px;border:1px solid var(--border);background:var(--surface);font-size:11px;font-weight:600;color:var(--text2);cursor:pointer;transition:all 0.15s;white-space:nowrap;}
-.preview-toggle-btn:hover{border-color:var(--blue);color:var(--blue);}
-.preview-scroll{flex:1;overflow-y:auto;}
-.preview-inner{padding:20px;}
+.split-layout {
+  display: flex !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  background: var(--bg);
+}
+.form-panel {
+  width: 460px !important;
+  min-width: 460px !important;
+  max-width: 460px !important;
+  flex-shrink: 0 !important;
+  overflow-y: auto !important;
+  padding: 0 28px 100px !important;
+  border-right: 1px solid var(--border) !important;
+  background: var(--bg) !important;
+  z-index: 2;
+}
+.preview-panel {
+  flex: 1 !important;
+  min-width: 0 !important;
+  background: #f1f5f9 !important;
+  overflow-y: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+.preview-panel.hidden { display: none !important; }
+.preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  background: #fff;
+}
+.preview-header-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text3); }
+.preview-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #f1f5f9;
+}
+.preview-inner {
+  padding: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  min-height: 100%;
+}
+.preview-doc, .doc-paper { 
+  width: 100%;
+  max-width: 850px; 
+  margin: 0 auto;
+  background: #fff;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  border-radius: 4px;
+  transform-origin: top center;
+}
 .status-chip{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3);}
 .sdot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 1.5s infinite;}
 .preview-label{font-size:10px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;}
@@ -520,6 +620,37 @@ const DB = {
   _set(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch(e){} },
   _id() { return '_'+Math.random().toString(36).slice(2,10); },
 
+  // --- CLIENTS ---
+  getClients() { return this._get('aq_clients') || []; },
+  saveClient(c) {
+    const cs = this.getClients();
+    const idx = cs.findIndex(x=>x.id===c.id);
+    if(idx>=0) cs[idx]=c; else cs.unshift(c);
+    this._set('aq_clients', cs);
+    return c;
+  },
+  deleteClient(id, reassignToId) {
+    const clients = this.getClients().filter(c => c.id !== id);
+    this._set('aq_clients', clients);
+    
+    const projects = this.getProjects();
+    if (reassignToId) {
+      // Reassign projects to another client
+      const updated = projects.map(p => p.clientId === id ? { ...p, clientId: reassignToId } : p);
+      this._set('aq_projects', updated);
+    } else {
+      // Delete projects associated with this client
+      const remaining = projects.filter(p => p.clientId !== id);
+      const toDelete = projects.filter(p => p.clientId === id).map(p => p.id);
+      this._set('aq_projects', remaining);
+      // Also delete docs for those projects
+      const docs = this.getDocs().filter(d => !toDelete.includes(d.projectId));
+      this._set('aq_docs', docs);
+    }
+  },
+  newClientId() { return 'cli'+this._id(); },
+
+  // --- PROJECTS ---
   getProjects() { return this._get('aq_projects') || []; },
   saveProject(p) {
     const ps = this.getProjects();
@@ -547,15 +678,30 @@ const DB = {
   newProjectId() { return 'proj'+this._id(); },
   newDocId() { return 'doc'+this._id(); },
 
-  // Get all projects enriched with doc counts
+  // Get all projects enriched with doc counts and client info
   getProjectsWithMeta() {
     const docs = this.getDocs();
+    const clients = this.getClients();
     return this.getProjects().map(p => {
       const pdocs = docs.filter(d=>d.projectId===p.id);
+      const client = clients.find(c => c.id === p.clientId);
       return { ...p,
+        clientName: client ? client.name : (p.client || 'Unassigned'),
         sowCount: pdocs.filter(d=>d.type==='acquia-sow'||d.type==='cd-sow').length,
         crCount: pdocs.filter(d=>d.type==='cr').length,
         docCount: pdocs.length,
+      };
+    });
+  },
+
+  // Get all clients enriched with project counts
+  getClientsWithMeta() {
+    const projects = this.getProjects();
+    return this.getClients().map(c => {
+      const cprojects = projects.filter(p => p.clientId === c.id);
+      return { ...c,
+        projectCount: cprojects.length,
+        projects: cprojects
       };
     });
   }
@@ -1670,7 +1816,7 @@ const styles=`
   .drawer-footer { padding: 14px 16px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text3); }
 
   /* ── Home page ── */
-  .page { max-width: 840px; margin: 0 auto; padding: 44px 32px; overflow-y: auto; height: calc(100vh - 52px); }
+  .page { width: 100%; padding: 44px 32px; overflow-y: auto; height: calc(100vh - 52px); }
   .page-title { font-size: 26px; font-weight: 700; color: var(--text); margin-bottom: 6px; letter-spacing: -0.02em; }
   .page-sub { font-size: 14px; color: var(--text2); margin-bottom: 36px; }
 
@@ -2014,8 +2160,8 @@ function PreviewWrapper({children, label}) {
   );
 }
 
-function SOWPreview({data}){const filled=data.resources.filter(r=>r.name||r.role);return/*#__PURE__*/React.createElement("div",{className:"preview-panel"},/*#__PURE__*/React.createElement("div",{className:"preview-inner"},/*#__PURE__*/React.createElement("div",{className:"preview-label"},"Live Preview"),/*#__PURE__*/React.createElement("div",{className:"preview-badge"},/*#__PURE__*/React.createElement("span",{className:"dot"}),"Updates as you type"),/*#__PURE__*/React.createElement("div",{className:"doc-paper"},/*#__PURE__*/React.createElement("p",{style:{textAlign:"center",fontWeight:700,fontSize:13,letterSpacing:"0.04em",marginBottom:2}},"Subcontractor Statement of Work"),/*#__PURE__*/React.createElement("hr",{className:"doc-divider"}),/*#__PURE__*/React.createElement("p",{style:{textAlign:"justify",fontStyle:"italic",fontSize:"10.5px",borderLeft:"3px solid #c8cdd6",paddingLeft:10,color:"#333",marginBottom:10}},"This Statement of Work (\"SOW\") is entered into as of ",/*#__PURE__*/React.createElement(F,{v:fmt(data.Effecdate),ph:"[Effective Date]"})," (the \"Effective Date\") by and between"," ",/*#__PURE__*/React.createElement("strong",null,/*#__PURE__*/React.createElement(F,{v:data.SubconAddr||data.Subcon,ph:"[Subcontractor and Address]"}))," (\"Subcontractor\") and ",/*#__PURE__*/React.createElement("strong",null,"Acquia Inc."),", a Delaware corporation with its principal place of business at 53 State Street, Boston, MA 02109 (\"Acquia\") and is deemed to be incorporated into that certain Subcontractor Agreement dated as of"," ",/*#__PURE__*/React.createElement(F,{v:fmt(data.MSA_Date),ph:"[MSA Date]"})," by and between Subcontractor and Acquia (the \"Agreement\"). Any terms used herein but not defined shall have the meaning ascribed to such term in the Agreement. Acquia is contracting the following services from the Subcontractor (the \"Services\"):"),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"1. Name of Project")," \u2013 ",/*#__PURE__*/React.createElement(F,{v:data.Projname,ph:"[Project Name]"})," (the \"Project\")"),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"2. Customer Name")," \u2013 ",/*#__PURE__*/React.createElement(F,{v:data.Custname,ph:"[Customer Name]"})," (the \"Customer\")"),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"3. Description of Project.")," ",/*#__PURE__*/React.createElement(F,{v:data.Proj_desc,ph:"[Project description]"})),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"4. Detailed Scope.")," Subcontractor will perform the following tasks for the Project ",/*#__PURE__*/React.createElement("strong",null,"Ongoing Engagement and Project Management. Subcontractor will provide the following:")),/*#__PURE__*/React.createElement("ul",{style:{paddingLeft:20,marginBottom:8,fontSize:"10.5px"}},/*#__PURE__*/React.createElement("li",null,/*#__PURE__*/React.createElement("strong",null,"Weekly status reports.")," Each week reports will be shared with Acquia to convey progress of tasks, risks, issues, roadblocks, budget, and milestones completed."),/*#__PURE__*/React.createElement("li",null,/*#__PURE__*/React.createElement("strong",null,"Project plan.")," Subcontractor will maintain and provide to Acquia Project plans with subsequent changes for tracking and updating of various elements throughout the effort."),/*#__PURE__*/React.createElement("li",null,/*#__PURE__*/React.createElement("strong",null,"Risk management and mitigation.")," Subcontractor will proactively identify risks and develop active mitigation strategies."),/*#__PURE__*/React.createElement("li",null,/*#__PURE__*/React.createElement("strong",null,"Scope and budget management.")," Active monitoring and management of both scope and budget burn."),/*#__PURE__*/React.createElement("li",null,/*#__PURE__*/React.createElement("strong",null,"Development Velocity.")," Subcontractor will consistently deliver on the agreed velocity established during Sprint Planning."),/*#__PURE__*/React.createElement("li",null,/*#__PURE__*/React.createElement("strong",null,"Development Tools.")," Subcontractor will use a combination of JIRA and GIT for bug tracking and version control.")),/*#__PURE__*/React.createElement("p",{style:{fontSize:"10.5px"}},"Subcontractor will provide development with the following roles on a scheduled sprint basis:"),/*#__PURE__*/React.createElement("ul",{style:{paddingLeft:20,marginBottom:8,fontSize:"10.5px"}},/*#__PURE__*/React.createElement("li",null,/*#__PURE__*/React.createElement("strong",null,"Drupal Front End Developer")," \u2013 3+ years Drupal experience, HTML5/CSS/JS/PHP skills."),/*#__PURE__*/React.createElement("li",null,/*#__PURE__*/React.createElement("strong",null,"Drupal Backend Developer")," \u2013 3+ years Drupal, site building, migrations, Git/VCS workflows."),/*#__PURE__*/React.createElement("li",null,/*#__PURE__*/React.createElement("strong",null,"Quality Assurance")," \u2013 3+ years Drupal, functional test cases, UAT support.")),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"5. Project Approach.")," The Project management methodology includes:"),/*#__PURE__*/React.createElement("ul",{style:{paddingLeft:20,marginBottom:8,fontSize:"10.5px"}},/*#__PURE__*/React.createElement("li",null,/*#__PURE__*/React.createElement("strong",null,"Development Team Management.")," The Project will be broken into 2-week sprints. Key meetings: Sprint Planning, Daily Stand-Ups, Sprint Demo, Sprint Retro."),/*#__PURE__*/React.createElement("li",null,/*#__PURE__*/React.createElement("strong",null,"Roles and Responsibilities")," as defined in the SOW table.")),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"6. Staffing Resources.")," Subcontractor will provide minimum two (2) weeks' written notice for any changes in staff or project allocations."),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"7. Secure Project Closure.")," At completion, all Subcontractor Staff will complete the Secure Project Closure checklist (Appendix A) within 5 business days of Project completion."),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"8. Deliverables.")," Subcontractor will provide: weekly status updates, proactive risk identification, and Deliverables through sprint processes."),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"9. Acceptance.")," Acquia reserves the right to review and test any work provided by Subcontractor to determine conformance to this SOW in all material respects."),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"10. Delivery Timeline.")," Subcontractor will work with Acquia and Customer to determine a mutually agreeable delivery schedule.",/*#__PURE__*/React.createElement("br",null),/*#__PURE__*/React.createElement("strong",null,"The period of performance is ",/*#__PURE__*/React.createElement(F,{v:fmt(data.Strtdate),ph:"[Start Date]"})," to ",/*#__PURE__*/React.createElement(F,{v:fmt(data.Enddate),ph:"[End Date]"}),".")),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"11. Team Leaders.")," The following table lists the team leaders from Acquia and Subcontractor."),/*#__PURE__*/React.createElement("table",{className:"doc-table"},/*#__PURE__*/React.createElement("thead",null,/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("th",null,"Resource/Role"),/*#__PURE__*/React.createElement("th",null,"Company"))),/*#__PURE__*/React.createElement("tbody",null,/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",null,/*#__PURE__*/React.createElement("u",null,"Professional Services Contact"),/*#__PURE__*/React.createElement("br",null),"Geetali Sodhi, Manager, Professional Services",/*#__PURE__*/React.createElement("br",null),/*#__PURE__*/React.createElement("span",{style:{color:"#1a40a8"}},"geetali.sodhi@acquia.com")),/*#__PURE__*/React.createElement("td",null,"Acquia")),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",null,/*#__PURE__*/React.createElement("u",null,"Professional Services Contact"),/*#__PURE__*/React.createElement("br",null),/*#__PURE__*/React.createElement(F,{v:data.Subpoc,ph:"[POC Name]"}),", CEO",/*#__PURE__*/React.createElement("br",null),/*#__PURE__*/React.createElement(F,{v:data.Subpocemail,ph:"[POC Email]"})),/*#__PURE__*/React.createElement("td",null,/*#__PURE__*/React.createElement(F,{v:data.Subcon,ph:"[Subcontractor]"}))))),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"12. Assumptions.")),/*#__PURE__*/React.createElement("ul",{style:{paddingLeft:20,marginBottom:8,fontSize:"10.5px"}},/*#__PURE__*/React.createElement("li",null,"Any delay caused directly by Subcontractor will be the sole responsibility of the Subcontractor."),/*#__PURE__*/React.createElement("li",null,"Subcontractor will not commit to Deliverables or changes in scope directly with Customer."),/*#__PURE__*/React.createElement("li",null,"Acquia will maintain all responsibilities for program and project management."),/*#__PURE__*/React.createElement("li",null,"Written approvals may be provided through e-mail."),/*#__PURE__*/React.createElement("li",null,"Business days are deemed not to exceed eight (8) hours."),/*#__PURE__*/React.createElement("li",null,"Subcontractor will not bill hours outside of those approved by Acquia.")),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"13. Fees, Invoicing and Payment")),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"Fees.")," The Services will be delivered on a time and materials basis, not to exceed ",/*#__PURE__*/React.createElement(F,{v:data.Total_Fee?(data.Total_Fee.startsWith("$")?data.Total_Fee:"$"+data.Total_Fee):null,ph:"[Total Fee]"})," (the \"Fees\")."),filled.length>0?/*#__PURE__*/React.createElement("table",{className:"doc-table"},/*#__PURE__*/React.createElement("thead",null,/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("th",null,"Role"),/*#__PURE__*/React.createElement("th",null,"Name"),/*#__PURE__*/React.createElement("th",null,"Hours"),/*#__PURE__*/React.createElement("th",null,"Rate"),/*#__PURE__*/React.createElement("th",null,"Total"))),/*#__PURE__*/React.createElement("tbody",null,filled.map((r,i)=>/*#__PURE__*/React.createElement("tr",{key:i},/*#__PURE__*/React.createElement("td",null,r.role||"—"),/*#__PURE__*/React.createElement("td",null,r.name||"—"),/*#__PURE__*/React.createElement("td",null,calcResourceHours(r)||"—"),/*#__PURE__*/React.createElement("td",null,r.rate?`$${r.rate}/hr`:"—"),/*#__PURE__*/React.createElement("td",null,calcResourceHours(r)&&r.rate?`$${calcResourceTotal(r).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}`:"—"))))):/*#__PURE__*/React.createElement("p",{style:{color:"#aaa",fontStyle:"italic",fontSize:"10.5px"}},"[Resource table will appear here]"),/*#__PURE__*/React.createElement("p",{style:{fontSize:"10.5px"}},/*#__PURE__*/React.createElement("strong",null,"Invoicing.")," Subcontractor will invoice monthly in arrears. All invoices must match approved timesheets."),/*#__PURE__*/React.createElement("p",{style:{fontSize:"10.5px"}},/*#__PURE__*/React.createElement("strong",null,"Expenses.")," Acquia will pay for actual and reasonable out-of-pocket expenses pre-approved in writing by Acquia."),/*#__PURE__*/React.createElement("p",{style:{fontSize:"10.5px"}},/*#__PURE__*/React.createElement("strong",null,"Payment.")," Acquia will pay all invoices in accordance with the terms of the Agreement."),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"14. Change Management.")," Revisions to the scope of the Project or Services that result in incremental effort, costs or fees shall be handled through a Change Request approved by Acquia."),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"15. Miscellaneous.")," This SOW may only be modified or amended by a document identifying itself as an amendment and signed by an authorized representative of each party."),/*#__PURE__*/React.createElement("p",{style:{marginTop:12}},"IN WITNESS WHEREOF, the parties have caused this SOW to be executed by their duly authorized representatives as of the date first written above."),/*#__PURE__*/React.createElement("table",{className:"sig-table"},/*#__PURE__*/React.createElement("thead",null,/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("th",null,"Acquia"),/*#__PURE__*/React.createElement("th",null,/*#__PURE__*/React.createElement(F,{v:data.Subconname||data.Subcon,ph:"[Subcontractor Name]"})))),/*#__PURE__*/React.createElement("tbody",null,/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",null,"Authorized Signature: _______________"),/*#__PURE__*/React.createElement("td",null,"Authorized Signature: _______________")),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",null,"Print Name: _______________"),/*#__PURE__*/React.createElement("td",null,"Print Name: _______________")),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",null,"Title: _______________"),/*#__PURE__*/React.createElement("td",null,"Title: _______________")),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",null,"Date: _______________"),/*#__PURE__*/React.createElement("td",null,"Date: _______________")))),/*#__PURE__*/React.createElement("p",{style:{fontSize:"10.5px",marginTop:10}},/*#__PURE__*/React.createElement("strong",null,"Does Supplier issue Purchase Orders?\xA0\xA0\xA0 YES [ ] \xA0\xA0\xA0 NO [ ]")),/*#__PURE__*/React.createElement("hr",{className:"doc-divider"}),/*#__PURE__*/React.createElement("p",{style:{fontWeight:700,fontSize:"11px",textAlign:"center"}},"Appendix A: Secure Project Closure Checklist"),/*#__PURE__*/React.createElement("p",{style:{fontSize:"10px"}},"At the completion of this SOW, all Staffing Resource(s) involved in the Project must complete this Secure Project Closure Checklist within 5 business days of Project closure."),/*#__PURE__*/React.createElement("table",{className:"doc-table",style:{fontSize:"9.5px"}},/*#__PURE__*/React.createElement("thead",null,/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("th",null,"Task"),/*#__PURE__*/React.createElement("th",null,"Completion Date"))),/*#__PURE__*/React.createElement("tbody",null,["Delete all Acquia and Customer source code from local machine and backups","Delete all Acquia and Customer data elements from local machine and backups","Delete all Customer databases from local machine and backups","Delete all Customer testing data from local machine and backups","Delete all Acquia and Customer access configurations (usernames, passwords, URLs)","Delete all Acquia and Customer-related proprietary information","Delete all references to Customer on internal systems (chat, Confluence, JIRA, etc.)"].map((t,i)=>/*#__PURE__*/React.createElement("tr",{key:i},/*#__PURE__*/React.createElement("td",null,t),/*#__PURE__*/React.createElement("td",null))))))));}// ─── CR PREVIEW ───────────────────────────────────────────────────────────────
-function CRPreview({data}){const filled=data.resources.filter(r=>r.resource||r.name);return/*#__PURE__*/React.createElement("div",{className:"preview-panel"},/*#__PURE__*/React.createElement("div",{className:"preview-inner"},/*#__PURE__*/React.createElement("div",{className:"preview-label"},"Live Preview"),/*#__PURE__*/React.createElement("div",{className:"preview-badge"},/*#__PURE__*/React.createElement("span",{className:"dot"}),"Updates as you type"),/*#__PURE__*/React.createElement("div",{className:"doc-paper"},/*#__PURE__*/React.createElement("p",{style:{textAlign:"center",fontWeight:700,fontSize:13,letterSpacing:"0.04em",marginBottom:6}},"Change Request"),/*#__PURE__*/React.createElement("hr",{className:"doc-divider"}),/*#__PURE__*/React.createElement("table",{className:"doc-table",style:{marginBottom:14}},/*#__PURE__*/React.createElement("tbody",null,/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",{className:"lbl"},/*#__PURE__*/React.createElement("strong",null,"Project Information")),/*#__PURE__*/React.createElement("td",null)),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",{className:"lbl"},"Consultant/Customer Name:"),/*#__PURE__*/React.createElement("td",null,/*#__PURE__*/React.createElement("strong",null,/*#__PURE__*/React.createElement(F,{v:data.custname,ph:"[Customer Name]"})))),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",{className:"lbl"},"Requestor:"),/*#__PURE__*/React.createElement("td",null,/*#__PURE__*/React.createElement(F,{v:data.req,ph:"[Requestor]"}))),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",{className:"lbl"},"Original Statement of Work Reference:"),/*#__PURE__*/React.createElement("td",null,/*#__PURE__*/React.createElement(F,{v:data.orgsow,ph:"[SOW Reference]"}))),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",{className:"lbl"},"Name of Project:"),/*#__PURE__*/React.createElement("td",null,/*#__PURE__*/React.createElement(F,{v:data.projname,ph:"[Project Name]"}))),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",{className:"lbl"},"Previous Change Requests:"),/*#__PURE__*/React.createElement("td",null,/*#__PURE__*/React.createElement(F,{v:data.prevcrs,ph:"None"}))),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",{className:"lbl"},"Change Request #:"),/*#__PURE__*/React.createElement("td",null,/*#__PURE__*/React.createElement(F,{v:data.crno,ph:"[CR Number]"}))))),/*#__PURE__*/React.createElement("p",{style:{fontWeight:700,fontSize:"11.5px",textDecoration:"underline",marginBottom:4}},"Description of Change"),/*#__PURE__*/React.createElement("table",{className:"doc-table",style:{marginBottom:10}},/*#__PURE__*/React.createElement("tbody",null,/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",{style:{fontStyle:"italic",color:"#333"}},"The purpose of this Change Request is to add more hours to the Continuous Delivery SOW and extend the timeline")))),/*#__PURE__*/React.createElement("p",{style:{fontWeight:700,fontSize:"11.5px",textDecoration:"underline",marginBottom:4}},"Details of Change"),/*#__PURE__*/React.createElement("p",{style:{fontSize:"10.5px"}},"Contractual changes to the SOW are as follows:"),/*#__PURE__*/React.createElement("p",{style:{fontSize:"10.5px"}},/*#__PURE__*/React.createElement("strong",null,"The following sections of the SOW will be replaced by the following")),/*#__PURE__*/React.createElement("p",{style:{fontSize:"10.5px"}},/*#__PURE__*/React.createElement("strong",null,"Section 10. Delivery Timeline"),": The period of performance is"," ",/*#__PURE__*/React.createElement(F,{v:fmt(data.ogstdate),ph:"[Start Date]"})," to ",/*#__PURE__*/React.createElement(F,{v:fmt(data.enddate),ph:"[New End Date]"}),"."),/*#__PURE__*/React.createElement("p",{style:{fontSize:"10.5px"}},/*#__PURE__*/React.createElement("strong",null,"Section 13. Fees, Invoicing and Payment"),": The Services will be delivered on a time and materials basis, not to exceed"," ","$",/*#__PURE__*/React.createElement("strong",null,/*#__PURE__*/React.createElement(F,{v:data.newtotbudget,ph:"[New Total Budget]"}))),/*#__PURE__*/React.createElement("p",{style:{fontWeight:700,fontSize:"10.5px",marginTop:8,marginBottom:6}},"Resources Table"),filled.length>0?/*#__PURE__*/React.createElement("table",{className:"doc-table",style:{fontSize:"9.5px"}},/*#__PURE__*/React.createElement("thead",null,/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("th",null,"Resource"),/*#__PURE__*/React.createElement("th",null,"Name"),/*#__PURE__*/React.createElement("th",null,"Current Hours (SOW)"),/*#__PURE__*/React.createElement("th",null,"Additional CR Hours"),/*#__PURE__*/React.createElement("th",null,"New Total Hour"),/*#__PURE__*/React.createElement("th",null,"Rate"),/*#__PURE__*/React.createElement("th",null,"New Total Budget"))),/*#__PURE__*/React.createElement("tbody",null,filled.map((r,i)=>/*#__PURE__*/React.createElement("tr",{key:i},/*#__PURE__*/React.createElement("td",null,r.resource||"—"),/*#__PURE__*/React.createElement("td",null,r.name||"—"),/*#__PURE__*/React.createElement("td",null,calcCRSowHours(r)||"—"),/*#__PURE__*/React.createElement("td",null,calcCRCrHours(r)||"—"),/*#__PURE__*/React.createElement("td",null,/*#__PURE__*/React.createElement("strong",null,calcCRTotalHours(r)||"—")),/*#__PURE__*/React.createElement("td",null,r.rate?`$${r.rate}`:"—"),/*#__PURE__*/React.createElement("td",null,calcCRTotalHours(r)&&r.rate?`$${calcCRBudget(r).toLocaleString()}`:"—"))))):/*#__PURE__*/React.createElement("p",{style:{color:"#aaa",fontStyle:"italic",fontSize:"10px"}},"[Resource table will appear here]"),/*#__PURE__*/React.createElement("table",{className:"doc-table",style:{marginTop:12}},/*#__PURE__*/React.createElement("thead",null,/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("th",{colSpan:2},"Project Impact"))),/*#__PURE__*/React.createElement("tbody",null,/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",{className:"lbl"},"Effort Impact"),/*#__PURE__*/React.createElement("td",null,"Original number of hours of ",/*#__PURE__*/React.createElement(F,{v:data.effimp,ph:"[Original Hours]"})," hours is increased by"," ",/*#__PURE__*/React.createElement(F,{v:data.inchours,ph:"[Additional Hours]"})," hours for a new total of"," ",/*#__PURE__*/React.createElement("strong",null,/*#__PURE__*/React.createElement(F,{v:data.neffimp,ph:"[New Total Hours]"}))," hours.")),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",{className:"lbl"},"Timeline Impact:"),/*#__PURE__*/React.createElement("td",null,"The original end date was ",/*#__PURE__*/React.createElement(F,{v:fmt(data.lenddate),ph:"[Previous End Date]"}),"; "," ",/*#__PURE__*/React.createElement(F,{v:data.workdays,ph:"[X]"})," days added and timeline is moving to ",/*#__PURE__*/React.createElement("strong",null,/*#__PURE__*/React.createElement(F,{v:fmt(data.enddate),ph:"[New End Date]"})))),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",{className:"lbl"},"Budget Impact:"),/*#__PURE__*/React.createElement("td",null,"The Change Request increases the budget by ",/*#__PURE__*/React.createElement("strong",null,"$",/*#__PURE__*/React.createElement(F,{v:data.newbud,ph:"[Increase]"})),". The original Budget was"," ","$",/*#__PURE__*/React.createElement("strong",null,/*#__PURE__*/React.createElement(F,{v:data.prevtotbud,ph:"[Original Budget]"})),", bringing the final budget to"," ","$",/*#__PURE__*/React.createElement("strong",null,/*#__PURE__*/React.createElement(F,{v:data.newtotbudget,ph:"[New Total]"})),".")))),/*#__PURE__*/React.createElement("p",{style:{fontSize:"10.5px",marginTop:10}},"Except as otherwise amended herein, all the terms and conditions of the SOW shall remain in full force and effect. This Change Request is effective from ",/*#__PURE__*/React.createElement(F,{v:fmt(data.exstdate),ph:"[Effective Date]"}),","),/*#__PURE__*/React.createElement("p",{style:{fontSize:"10.5px",marginTop:6}},"IN WITNESS WHEREOF, each of the parties has caused this Change Request to be executed on its behalf by its duly authorized representatives as of the Effective Date stated above and agrees that an electronic signature of a duly authorized representative constitutes a valid signature for such a party."),/*#__PURE__*/React.createElement("table",{className:"sig-table"},/*#__PURE__*/React.createElement("thead",null,/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("th",null,"ACQUIA INC."),/*#__PURE__*/React.createElement("th",null,/*#__PURE__*/React.createElement(F,{v:data.custname,ph:"[Customer Name]"})))),/*#__PURE__*/React.createElement("tbody",null,/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",null,"By: _______________"),/*#__PURE__*/React.createElement("td",null,"By: _______________")),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",null,"Name: _______________"),/*#__PURE__*/React.createElement("td",null,"Name: _______________")),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",null,"Title: _______________"),/*#__PURE__*/React.createElement("td",null,"Title: _______________")),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",null,"Date: _______________"),/*#__PURE__*/React.createElement("td",null,"Date: _______________")))))));}// ─── SOW FORM ─────────────────────────────────────────────────────────────────
+function SOWPreview({data}){const filled=data.resources.filter(r=>r.name||r.role);return/*#__PURE__*/React.createElement("div",{className:"preview-panel"},/*#__PURE__*/React.createElement("div",{className:"preview-inner"},/*#__PURE__*/React.createElement("div",{className:"doc-paper"},/*#__PURE__*/React.createElement("p",{style:{textAlign:"center",fontWeight:700,fontSize:13,letterSpacing:"0.04em",marginBottom:2}},"Subcontractor Statement of Work"),/*#__PURE__*/React.createElement("hr",{className:"doc-divider"}),/*#__PURE__*/React.createElement("p",{style:{textAlign:"justify",fontStyle:"italic",fontSize:"10.5px",borderLeft:"3px solid #c8cdd6",paddingLeft:10,color:"#333",marginBottom:10}},"This Statement of Work (\"SOW\") is entered into as of ",/*#__PURE__*/React.createElement(F,{v:fmt(data.Effecdate),ph:"[Effective Date]"})," (the \"Effective Date\") by and between"," ",/*#__PURE__*/React.createElement("strong",null,/*#__PURE__*/React.createElement(F,{v:data.SubconAddr||data.Subcon,ph:"[Subcontractor and Address]"}))," (\"Subcontractor\") and ",/*#__PURE__*/React.createElement("strong",null,"Acquia Inc."),", a Delaware corporation with its principal place of business at 53 State Street, Boston, MA 02109 (\"Acquia\") and is deemed to be incorporated into that certain Subcontractor Agreement dated as of"," ",/*#__PURE__*/React.createElement(F,{v:fmt(data.MSA_Date),ph:"[MSA Date]"})," by and between Subcontractor and Acquia (the \"Agreement\"). Any terms used herein but not defined shall have the meaning ascribed to such term in the Agreement. Acquia is contracting the following services from the Subcontractor (the \"Services\"):"),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"1. Name of Project")," \u2013 ",/*#__PURE__*/React.createElement(F,{v:data.Projname,ph:"[Project Name]"})," (the \"Project\")"),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"2. Customer Name")," \u2013 ",/*#__PURE__*/React.createElement(F,{v:data.Custname,ph:"[Customer Name]"})," (the \"Customer\")"),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"3. Description of Project.")," ",/*#__PURE__*/React.createElement(F,{v:data.Proj_desc,ph:"[Project description]"})),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"4. Detailed Scope.")," Subcontractor will perform the following tasks for the Project ",/*#__PURE__*/React.createElement("strong",null,"Ongoing Engagement and Project Management. Subcontractor will provide the following:")),/*#__PURE__*/React.createElement("ul",{style:{paddingLeft:20,marginBottom:8,fontSize:"10.5px"}},/*#__PURE__*/React.createElement("li",null,/*#__PURE__*/React.createElement("strong",null,"Weekly status reports.")," Each week reports will be shared with Acquia to convey progress of tasks, risks, issues, roadblocks, budget, and milestones completed."),/*#__PURE__*/React.createElement("li",null,/*#__PURE__*/React.createElement("strong",null,"Project plan.")," Subcontractor will maintain and provide to Acquia Project plans with subsequent changes for tracking and updating of various elements throughout the effort."),/*#__PURE__*/React.createElement("li",null,/*#__PURE__*/React.createElement("strong",null,"Risk management and mitigation.")," Subcontractor will proactively identify risks and develop active mitigation strategies."),/*#__PURE__*/React.createElement("li",null,/*#__PURE__*/React.createElement("strong",null,"Scope and budget management.")," Active monitoring and management of both scope and budget burn."),/*#__PURE__*/React.createElement("li",null,/*#__PURE__*/React.createElement("strong",null,"Development Velocity.")," Subcontractor will consistently deliver on the agreed velocity established during Sprint Planning."),/*#__PURE__*/React.createElement("li",null,/*#__PURE__*/React.createElement("strong",null,"Development Tools.")," Subcontractor will use a combination of JIRA and GIT for bug tracking and version control.")),/*#__PURE__*/React.createElement("p",{style:{fontSize:"10.5px"}},"Subcontractor will provide development with the following roles on a scheduled sprint basis:"),/*#__PURE__*/React.createElement("ul",{style:{paddingLeft:20,marginBottom:8,fontSize:"10.5px"}},/*#__PURE__*/React.createElement("li",null,/*#__PURE__*/React.createElement("strong",null,"Drupal Front End Developer")," \u2013 3+ years Drupal experience, HTML5/CSS/JS/PHP skills."),/*#__PURE__*/React.createElement("li",null,/*#__PURE__*/React.createElement("strong",null,"Drupal Backend Developer")," \u2013 3+ years Drupal, site building, migrations, Git/VCS workflows."),/*#__PURE__*/React.createElement("li",null,/*#__PURE__*/React.createElement("strong",null,"Quality Assurance")," \u2013 3+ years Drupal, functional test cases, UAT support.")),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"5. Project Approach.")," The Project management methodology includes:"),/*#__PURE__*/React.createElement("ul",{style:{paddingLeft:20,marginBottom:8,fontSize:"10.5px"}},/*#__PURE__*/React.createElement("li",null,/*#__PURE__*/React.createElement("strong",null,"Development Team Management.")," The Project will be broken into 2-week sprints. Key meetings: Sprint Planning, Daily Stand-Ups, Sprint Demo, Sprint Retro."),/*#__PURE__*/React.createElement("li",null,/*#__PURE__*/React.createElement("strong",null,"Roles and Responsibilities")," as defined in the SOW table.")),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"6. Staffing Resources.")," Subcontractor will provide minimum two (2) weeks' written notice for any changes in staff or project allocations."),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"7. Secure Project Closure.")," At completion, all Subcontractor Staff will complete the Secure Project Closure checklist (Appendix A) within 5 business days of Project completion."),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"8. Deliverables.")," Subcontractor will provide: weekly status updates, proactive risk identification, and Deliverables through sprint processes."),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"9. Acceptance.")," Acquia reserves the right to review and test any work provided by Subcontractor to determine conformance to this SOW in all material respects."),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"10. Delivery Timeline.")," Subcontractor will work with Acquia and Customer to determine a mutually agreeable delivery schedule.",/*#__PURE__*/React.createElement("br",null),/*#__PURE__*/React.createElement("strong",null,"The period of performance is ",/*#__PURE__*/React.createElement(F,{v:fmt(data.Strtdate),ph:"[Start Date]"})," to ",/*#__PURE__*/React.createElement(F,{v:fmt(data.Enddate),ph:"[End Date]"}),".")),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"11. Team Leaders.")," The following table lists the team leaders from Acquia and Subcontractor."),/*#__PURE__*/React.createElement("table",{className:"doc-table"},/*#__PURE__*/React.createElement("thead",null,/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("th",null,"Resource/Role"),/*#__PURE__*/React.createElement("th",null,"Company"))),/*#__PURE__*/React.createElement("tbody",null,/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",null,/*#__PURE__*/React.createElement("u",null,"Professional Services Contact"),/*#__PURE__*/React.createElement("br",null),"Geetali Sodhi, Manager, Professional Services",/*#__PURE__*/React.createElement("br",null),/*#__PURE__*/React.createElement("span",{style:{color:"#1a40a8"}},"geetali.sodhi@acquia.com")),/*#__PURE__*/React.createElement("td",null,"Acquia")),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",null,/*#__PURE__*/React.createElement("u",null,"Professional Services Contact"),/*#__PURE__*/React.createElement("br",null),/*#__PURE__*/React.createElement(F,{v:data.Subpoc,ph:"[POC Name]"}),", CEO",/*#__PURE__*/React.createElement("br",null),/*#__PURE__*/React.createElement(F,{v:data.Subpocemail,ph:"[POC Email]"})),/*#__PURE__*/React.createElement("td",null,/*#__PURE__*/React.createElement(F,{v:data.Subcon,ph:"[Subcontractor]"}))))),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"12. Assumptions.")),/*#__PURE__*/React.createElement("ul",{style:{paddingLeft:20,marginBottom:8,fontSize:"10.5px"}},/*#__PURE__*/React.createElement("li",null,"Any delay caused directly by Subcontractor will be the sole responsibility of the Subcontractor."),/*#__PURE__*/React.createElement("li",null,"Subcontractor will not commit to Deliverables or changes in scope directly with Customer."),/*#__PURE__*/React.createElement("li",null,"Acquia will maintain all responsibilities for program and project management."),/*#__PURE__*/React.createElement("li",null,"Written approvals may be provided through e-mail."),/*#__PURE__*/React.createElement("li",null,"Business days are deemed not to exceed eight (8) hours."),/*#__PURE__*/React.createElement("li",null,"Subcontractor will not bill hours outside of those approved by Acquia.")),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"13. Fees, Invoicing and Payment")),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"Fees.")," The Services will be delivered on a time and materials basis, not to exceed ",/*#__PURE__*/React.createElement(F,{v:data.Total_Fee?(data.Total_Fee.startsWith("$")?data.Total_Fee:"$"+data.Total_Fee):null,ph:"[Total Fee]"})," (the \"Fees\")."),filled.length>0?/*#__PURE__*/React.createElement("table",{className:"doc-table"},/*#__PURE__*/React.createElement("thead",null,/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("th",null,"Role"),/*#__PURE__*/React.createElement("th",null,"Name"),/*#__PURE__*/React.createElement("th",null,"Hours"),/*#__PURE__*/React.createElement("th",null,"Rate"),/*#__PURE__*/React.createElement("th",null,"Total"))),/*#__PURE__*/React.createElement("tbody",null,filled.map((r,i)=>/*#__PURE__*/React.createElement("tr",{key:i},/*#__PURE__*/React.createElement("td",null,r.role||"—"),/*#__PURE__*/React.createElement("td",null,r.name||"—"),/*#__PURE__*/React.createElement("td",null,calcResourceHours(r)||"—"),/*#__PURE__*/React.createElement("td",null,r.rate?`$${r.rate}/hr`:"—"),/*#__PURE__*/React.createElement("td",null,calcResourceHours(r)&&r.rate?`$${calcResourceTotal(r).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}`:"—"))))):/*#__PURE__*/React.createElement("p",{style:{color:"#aaa",fontStyle:"italic",fontSize:"10.5px"}},"[Resource table will appear here]"),/*#__PURE__*/React.createElement("p",{style:{fontSize:"10.5px"}},/*#__PURE__*/React.createElement("strong",null,"Invoicing.")," Subcontractor will invoice monthly in arrears. All invoices must match approved timesheets."),/*#__PURE__*/React.createElement("p",{style:{fontSize:"10.5px"}},/*#__PURE__*/React.createElement("strong",null,"Expenses.")," Acquia will pay for actual and reasonable out-of-pocket expenses pre-approved in writing by Acquia."),/*#__PURE__*/React.createElement("p",{style:{fontSize:"10.5px"}},/*#__PURE__*/React.createElement("strong",null,"Payment.")," Acquia will pay all invoices in accordance with the terms of the Agreement."),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"14. Change Management.")," Revisions to the scope of the Project or Services that result in incremental effort, costs or fees shall be handled through a Change Request approved by Acquia."),/*#__PURE__*/React.createElement("p",null,/*#__PURE__*/React.createElement("strong",null,"15. Miscellaneous.")," This SOW may only be modified or amended by a document identifying itself as an amendment and signed by an authorized representative of each party."),/*#__PURE__*/React.createElement("p",{style:{marginTop:12}},"IN WITNESS WHEREOF, the parties have caused this SOW to be executed by their duly authorized representatives as of the date first written above."),/*#__PURE__*/React.createElement("table",{className:"sig-table"},/*#__PURE__*/React.createElement("thead",null,/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("th",null,"Acquia"),/*#__PURE__*/React.createElement("th",null,/*#__PURE__*/React.createElement(F,{v:data.Subconname||data.Subcon,ph:"[Subcontractor Name]"})))),/*#__PURE__*/React.createElement("tbody",null,/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",null,"Authorized Signature: _______________"),/*#__PURE__*/React.createElement("td",null,"Authorized Signature: _______________")),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",null,"Print Name: _______________"),/*#__PURE__*/React.createElement("td",null,"Print Name: _______________")),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",null,"Title: _______________"),/*#__PURE__*/React.createElement("td",null,"Title: _______________")),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",null,"Date: _______________"),/*#__PURE__*/React.createElement("td",null,"Date: _______________")))),/*#__PURE__*/React.createElement("p",{style:{fontSize:"10.5px",marginTop:10}},/*#__PURE__*/React.createElement("strong",null,"Does Supplier issue Purchase Orders?\xA0\xA0\xA0 YES [ ] \xA0\xA0\xA0 NO [ ]")),/*#__PURE__*/React.createElement("hr",{className:"doc-divider"}),/*#__PURE__*/React.createElement("p",{style:{fontWeight:700,fontSize:"11px",textAlign:"center"}},"Appendix A: Secure Project Closure Checklist"),/*#__PURE__*/React.createElement("p",{style:{fontSize:"10px"}},"At the completion of this SOW, all Staffing Resource(s) involved in the Project must complete this Secure Project Closure Checklist within 5 business days of Project closure."),/*#__PURE__*/React.createElement("table",{className:"doc-table",style:{fontSize:"9.5px"}},/*#__PURE__*/React.createElement("thead",null,/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("th",null,"Task"),/*#__PURE__*/React.createElement("th",null,"Completion Date"))),/*#__PURE__*/React.createElement("tbody",null,["Delete all Acquia and Customer source code from local machine and backups","Delete all Acquia and Customer data elements from local machine and backups","Delete all Customer databases from local machine and backups","Delete all Customer testing data from local machine and backups","Delete all Acquia and Customer access configurations (usernames, passwords, URLs)","Delete all Acquia and Customer-related proprietary information","Delete all references to Customer on internal systems (chat, Confluence, JIRA, etc.)"].map((t,i)=>/*#__PURE__*/React.createElement("tr",{key:i},/*#__PURE__*/React.createElement("td",null,t),/*#__PURE__*/React.createElement("td",null))))))));}// ─── CR PREVIEW ───────────────────────────────────────────────────────────────
+function CRPreview({data}){const filled=data.resources.filter(r=>r.resource||r.name);return/*#__PURE__*/React.createElement("div",{className:"preview-panel"},/*#__PURE__*/React.createElement("div",{className:"preview-inner"},/*#__PURE__*/React.createElement("div",{className:"doc-paper"},/*#__PURE__*/React.createElement("p",{style:{textAlign:"center",fontWeight:700,fontSize:13,letterSpacing:"0.04em",marginBottom:6}},"Change Request"),/*#__PURE__*/React.createElement("hr",{className:"doc-divider"}),/*#__PURE__*/React.createElement("table",{className:"doc-table",style:{marginBottom:14}},/*#__PURE__*/React.createElement("tbody",null,/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",{className:"lbl"},/*#__PURE__*/React.createElement("strong",null,"Project Information")),/*#__PURE__*/React.createElement("td",null)),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",{className:"lbl"},"Consultant/Customer Name:"),/*#__PURE__*/React.createElement("td",null,/*#__PURE__*/React.createElement("strong",null,/*#__PURE__*/React.createElement(F,{v:data.custname,ph:"[Customer Name]"})))),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",{className:"lbl"},"Requestor:"),/*#__PURE__*/React.createElement("td",null,/*#__PURE__*/React.createElement(F,{v:data.req,ph:"[Requestor]"}))),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",{className:"lbl"},"Original Statement of Work Reference:"),/*#__PURE__*/React.createElement("td",null,/*#__PURE__*/React.createElement(F,{v:data.orgsow,ph:"[SOW Reference]"}))),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",{className:"lbl"},"Name of Project:"),/*#__PURE__*/React.createElement("td",null,/*#__PURE__*/React.createElement(F,{v:data.projname,ph:"[Project Name]"}))),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",{className:"lbl"},"Previous Change Requests:"),/*#__PURE__*/React.createElement("td",null,/*#__PURE__*/React.createElement(F,{v:data.prevcrs,ph:"None"}))),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",{className:"lbl"},"Change Request #:"),/*#__PURE__*/React.createElement("td",null,/*#__PURE__*/React.createElement(F,{v:data.crno,ph:"[CR Number]"}))))),/*#__PURE__*/React.createElement("p",{style:{fontWeight:700,fontSize:"11.5px",textDecoration:"underline",marginBottom:4}},"Description of Change"),/*#__PURE__*/React.createElement("table",{className:"doc-table",style:{marginBottom:10}},/*#__PURE__*/React.createElement("tbody",null,/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",{style:{fontStyle:"italic",color:"#333"}},"The purpose of this Change Request is to add more hours to the Continuous Delivery SOW and extend the timeline")))),/*#__PURE__*/React.createElement("p",{style:{fontWeight:700,fontSize:"11.5px",textDecoration:"underline",marginBottom:4}},"Details of Change"),/*#__PURE__*/React.createElement("p",{style:{fontSize:"10.5px"}},"Contractual changes to the SOW are as follows:"),/*#__PURE__*/React.createElement("p",{style:{fontSize:"10.5px"}},/*#__PURE__*/React.createElement("strong",null,"The following sections of the SOW will be replaced by the following")),/*#__PURE__*/React.createElement("p",{style:{fontSize:"10.5px"}},/*#__PURE__*/React.createElement("strong",null,"Section 10. Delivery Timeline"),": The period of performance is"," ",/*#__PURE__*/React.createElement(F,{v:fmt(data.ogstdate),ph:"[Start Date]"})," to ",/*#__PURE__*/React.createElement(F,{v:fmt(data.enddate),ph:"[New End Date]"}),"."),/*#__PURE__*/React.createElement("p",{style:{fontSize:"10.5px"}},/*#__PURE__*/React.createElement("strong",null,"Section 13. Fees, Invoicing and Payment"),": The Services will be delivered on a time and materials basis, not to exceed"," ","$",/*#__PURE__*/React.createElement("strong",null,/*#__PURE__*/React.createElement(F,{v:data.newtotbudget,ph:"[New Total Budget]"}))),/*#__PURE__*/React.createElement("p",{style:{fontWeight:700,fontSize:"10.5px",marginTop:8,marginBottom:6}},"Resources Table"),filled.length>0?/*#__PURE__*/React.createElement("table",{className:"doc-table",style:{fontSize:"9.5px"}},/*#__PURE__*/React.createElement("thead",null,/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("th",null,"Resource"),/*#__PURE__*/React.createElement("th",null,"Name"),/*#__PURE__*/React.createElement("th",null,"Current Hours (SOW)"),/*#__PURE__*/React.createElement("th",null,"Additional CR Hours"),/*#__PURE__*/React.createElement("th",null,"New Total Hour"),/*#__PURE__*/React.createElement("th",null,"Rate"),/*#__PURE__*/React.createElement("th",null,"New Total Budget"))),/*#__PURE__*/React.createElement("tbody",null,filled.map((r,i)=>/*#__PURE__*/React.createElement("tr",{key:i},/*#__PURE__*/React.createElement("td",null,r.resource||"—"),/*#__PURE__*/React.createElement("td",null,r.name||"—"),/*#__PURE__*/React.createElement("td",null,calcCRSowHours(r)||"—"),/*#__PURE__*/React.createElement("td",null,calcCRCrHours(r)||"—"),/*#__PURE__*/React.createElement("td",null,/*#__PURE__*/React.createElement("strong",null,calcCRTotalHours(r)||"—")),/*#__PURE__*/React.createElement("td",null,r.rate?`$${r.rate}`:"—"),/*#__PURE__*/React.createElement("td",null,calcCRTotalHours(r)&&r.rate?`$${calcCRBudget(r).toLocaleString()}`:"—"))))):/*#__PURE__*/React.createElement("p",{style:{color:"#aaa",fontStyle:"italic",fontSize:"10px"}},"[Resource table will appear here]"),/*#__PURE__*/React.createElement("table",{className:"doc-table",style:{marginTop:12}},/*#__PURE__*/React.createElement("thead",null,/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("th",{colSpan:2},"Project Impact"))),/*#__PURE__*/React.createElement("tbody",null,/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",{className:"lbl"},"Effort Impact"),/*#__PURE__*/React.createElement("td",null,"Original number of hours of ",/*#__PURE__*/React.createElement(F,{v:data.effimp,ph:"[Original Hours]"})," hours is increased by"," ",/*#__PURE__*/React.createElement(F,{v:data.inchours,ph:"[Additional Hours]"})," hours for a new total of"," ",/*#__PURE__*/React.createElement("strong",null,/*#__PURE__*/React.createElement(F,{v:data.neffimp,ph:"[New Total Hours]"}))," hours.")),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",{className:"lbl"},"Timeline Impact:"),/*#__PURE__*/React.createElement("td",null,"The original end date was ",/*#__PURE__*/React.createElement(F,{v:fmt(data.lenddate),ph:"[Previous End Date]"}),"; "," ",/*#__PURE__*/React.createElement(F,{v:data.workdays,ph:"[X]"})," days added and timeline is moving to ",/*#__PURE__*/React.createElement("strong",null,/*#__PURE__*/React.createElement(F,{v:fmt(data.enddate),ph:"[New End Date]"})))),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",{className:"lbl"},"Budget Impact:"),/*#__PURE__*/React.createElement("td",null,"The Change Request increases the budget by ",/*#__PURE__*/React.createElement("strong",null,"$",/*#__PURE__*/React.createElement(F,{v:data.newbud,ph:"[Increase]"})),". The original Budget was"," ","$",/*#__PURE__*/React.createElement("strong",null,/*#__PURE__*/React.createElement(F,{v:data.prevtotbud,ph:"[Original Budget]"})),", bringing the final budget to"," ","$",/*#__PURE__*/React.createElement("strong",null,/*#__PURE__*/React.createElement(F,{v:data.newtotbudget,ph:"[New Total]"})),".")))),/*#__PURE__*/React.createElement("p",{style:{fontSize:"10.5px",marginTop:10}},"Except as otherwise amended herein, all the terms and conditions of the SOW shall remain in full force and effect. This Change Request is effective from ",/*#__PURE__*/React.createElement(F,{v:fmt(data.exstdate),ph:"[Effective Date]"}),","),/*#__PURE__*/React.createElement("p",{style:{fontSize:"10.5px",marginTop:6}},"IN WITNESS WHEREOF, each of the parties has caused this Change Request to be executed on its behalf by its duly authorized representatives as of the Effective Date stated above and agrees that an electronic signature of a duly authorized representative constitutes a valid signature for such a party."),/*#__PURE__*/React.createElement("table",{className:"sig-table"},/*#__PURE__*/React.createElement("thead",null,/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("th",null,"ACQUIA INC."),/*#__PURE__*/React.createElement("th",null,/*#__PURE__*/React.createElement(F,{v:data.custname,ph:"[Customer Name]"})))),/*#__PURE__*/React.createElement("tbody",null,/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",null,"By: _______________"),/*#__PURE__*/React.createElement("td",null,"By: _______________")),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",null,"Name: _______________"),/*#__PURE__*/React.createElement("td",null,"Name: _______________")),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",null,"Title: _______________"),/*#__PURE__*/React.createElement("td",null,"Title: _______________")),/*#__PURE__*/React.createElement("tr",null,/*#__PURE__*/React.createElement("td",null,"Date: _______________"),/*#__PURE__*/React.createElement("td",null,"Date: _______________")))))));}// ─── SOW FORM ─────────────────────────────────────────────────────────────────
 function SOWForm({onBack,onComplete,prefill}){
   const[step,setStep]=useState(0);
   const[data,setData]=useState(function(){
@@ -3853,39 +3999,28 @@ function Overlay({children, onClose}) {
   }, children);
 }
 
-function NewProjectModal({onClose, onCreated}) {
+function NewClientModal({onClose, onCreated}) {
   const [name, setName] = useState('');
-  const [client, setClient] = useState('');
   const handleCreate = () => {
     if(!name.trim()) return;
-    const p = DB.saveProject({
-      id: DB.newProjectId(),
+    const c = DB.saveClient({
+      id: DB.newClientId(),
       name: name.trim(),
-      client: client.trim(),
       createdAt: Date.now()
     });
-    onCreated(p);
+    onCreated(c);
   };
   return React.createElement(Overlay, {onClose},
     React.createElement('div', {className:'modal'},
-      React.createElement('div', {className:'modal-title'}, '📁 New Project'),
-      React.createElement('div', {className:'modal-sub'}, 'Projects group related SOWs and CRs together'),
+      React.createElement('div', {className:'modal-title'}, '🏢 New Client'),
+      React.createElement('div', {className:'modal-sub'}, 'Clients are the top-level organization for projects'),
       React.createElement('div', {className:'field-group'},
-        React.createElement('label', {className:'field-label'}, 'Project Name *'),
+        React.createElement('label', {className:'field-label'}, 'Client Name *'),
         React.createElement('input', {
           className:'field-input', autoFocus:true,
-          placeholder:'e.g. Acme Corp — Drupal Migration 2025',
+          placeholder:'e.g. Acquia, Pfizer, etc.',
           value:name, onChange:e=>setName(e.target.value),
           onKeyDown:e=>{if(e.key==='Enter')handleCreate();if(e.key==='Escape')onClose();}
-        })
-      ),
-      React.createElement('div', {className:'field-group'},
-        React.createElement('label', {className:'field-label'}, 'Client / End Customer'),
-        React.createElement('input', {
-          className:'field-input',
-          placeholder:'e.g. Acme Corporation',
-          value:client, onChange:e=>setClient(e.target.value),
-          onKeyDown:e=>{if(e.key==='Enter')handleCreate();}
         })
       ),
       React.createElement('div', {className:'modal-footer'},
@@ -3894,6 +4029,120 @@ function NewProjectModal({onClose, onCreated}) {
           className:'btn btn-primary',
           onClick:handleCreate,
           disabled:!name.trim()
+        }, 'Create Client')
+      )
+    )
+  );
+}
+
+function DeleteClientModal({client, otherClients, onClose, onConfirm}) {
+  const [reassignId, setReassignId] = useState('');
+  const hasProjects = client.projectCount > 0;
+
+  return React.createElement(Overlay, {onClose},
+    React.createElement('div', {className:'modal'},
+      React.createElement('div', {className:'modal-title'}, '⚠️ Delete Client'),
+      React.createElement('div', {className:'modal-sub'}, `Are you sure you want to delete "${client.name}"?`),
+      
+      hasProjects && React.createElement(React.Fragment, null,
+        React.createElement('div', {className:'info-banner', style:{marginTop:16}}, 
+          `This client has ${client.projectCount} project(s). What should happen to them?`
+        ),
+        React.createElement('div', {className:'field-group'},
+          React.createElement('label', {className:'field-label'}, 'Action'),
+          React.createElement('select', {
+            className:'field-input',
+            value: reassignId === 'delete' ? 'delete' : (reassignId ? 'reassign' : ''),
+            onChange: e => {
+              if(e.target.value === 'delete') setReassignId('delete');
+              else if(e.target.value === 'reassign') setReassignId(otherClients[0]?.id || '');
+              else setReassignId('');
+            }
+          },
+            React.createElement('option', {value:''}, '— Select action —'),
+            otherClients.length > 0 && React.createElement('option', {value:'reassign'}, 'Reassign projects to another client'),
+            React.createElement('option', {value:'delete'}, 'Delete all associated projects and documents')
+          )
+        ),
+        reassignId && reassignId !== 'delete' && React.createElement('div', {className:'field-group'},
+          React.createElement('label', {className:'field-label'}, 'Reassign to Client'),
+          React.createElement('select', {
+            className:'field-input',
+            value: reassignId,
+            onChange: e => setReassignId(e.target.value)
+          },
+            otherClients.map(c => React.createElement('option', {key:c.id, value:c.id}, c.name))
+          )
+        )
+      ),
+
+      React.createElement('div', {className:'modal-footer'},
+        React.createElement('button', {className:'btn btn-secondary', onClick:onClose}, 'Cancel'),
+        React.createElement('button', {
+          className:'btn btn-danger',
+          disabled: hasProjects && !reassignId,
+          onClick: () => onConfirm(reassignId === 'delete' ? null : reassignId)
+        }, 'Confirm Delete')
+      )
+    )
+  );
+}
+
+function NewProjectModal({onClose, onCreated}) {
+  const [name, setName] = useState('');
+  const [clientId, setClientId] = useState('');
+  const clients = DB.getClients();
+
+  useEffect(() => {
+    if (clients.length > 0 && !clientId) {
+      setClientId(clients[0].id);
+    }
+  }, [clients]);
+
+  const handleCreate = () => {
+    if(!name.trim() || !clientId) return;
+    const p = DB.saveProject({
+      id: DB.newProjectId(),
+      name: name.trim(),
+      clientId: clientId,
+      createdAt: Date.now()
+    });
+    onCreated(p);
+  };
+
+  return React.createElement(Overlay, {onClose},
+    React.createElement('div', {className:'modal'},
+      React.createElement('div', {className:'modal-title'}, '📁 New Project'),
+      React.createElement('div', {className:'modal-sub'}, 'Projects group related SOWs and CRs together'),
+      
+      React.createElement('div', {className:'field-group'},
+        React.createElement('label', {className:'field-label'}, 'Client *'),
+        clients.length === 0 
+          ? React.createElement('div', {style:{fontSize:12, color:'var(--red)', marginBottom:10}}, 'No clients found. Please create a client first.')
+          : React.createElement('select', {
+              className:'field-input',
+              value: clientId,
+              onChange: e => setClientId(e.target.value)
+            },
+              clients.map(c => React.createElement('option', {key:c.id, value:c.id}, c.name))
+            )
+      ),
+
+      React.createElement('div', {className:'field-group'},
+        React.createElement('label', {className:'field-label'}, 'Project Name *'),
+        React.createElement('input', {
+          className:'field-input', autoFocus:true,
+          placeholder:'e.g. Drupal Migration 2025',
+          value:name, onChange:e=>setName(e.target.value),
+          onKeyDown:e=>{if(e.key==='Enter')handleCreate();if(e.key==='Escape')onClose();}
+        })
+      ),
+      React.createElement('div', {className:'modal-footer'},
+        React.createElement('button', {className:'btn btn-secondary', onClick:onClose}, 'Cancel'),
+        React.createElement('button', {
+          className:'btn btn-primary',
+          onClick:handleCreate,
+          disabled:!name.trim() || !clientId
         }, 'Create Project')
       )
     )
@@ -3960,7 +4209,7 @@ function DeleteConfirmModal({title, message, onConfirm, onClose}) {
 }
 
 // ── Sidebar ──
-function Sidebar({projects, activeProjectId, onSelectDash, onSelectProject, onNewProject}) {
+function Sidebar({clients, projects, activeProjectId, onSelectDash, onSelectProject, onNewProject, onNewClient}) {
   return React.createElement('div', {className:'sidebar'},
     // Logo
     React.createElement('div', {className:'sidebar-logo'},
@@ -3984,27 +4233,44 @@ function Sidebar({projects, activeProjectId, onSelectDash, onSelectProject, onNe
         'Dashboard'
       ),
 
-      projects.length > 0 && React.createElement('div', {className:'sidebar-section-label'}, 'Projects'),
-      ...projects.map(p=>
-        React.createElement('div', {
-          key:p.id,
-          className:`sidebar-project-item${p.id===activeProjectId?' active':''}`,
-          onClick:()=>onSelectProject(p.id)
-        },
-          React.createElement('div', {className:'sidebar-project-dot'}),
-          React.createElement('div', {className:'sidebar-project-name'}, p.name),
-          React.createElement('div', {className:'sidebar-project-count'}, p.docCount||0)
-        )
-      ),
+      clients.length > 0 && React.createElement('div', {className:'sidebar-section-label'}, 'Clients & Projects'),
+      ...clients.map(c => {
+        const clientProjects = projects.filter(p => p.clientId === c.id);
+        return React.createElement('div', {key:c.id, style:{marginBottom:8}},
+          React.createElement('div', {className:'sidebar-section-label', style:{padding:'8px 20px', fontSize:9, color:'rgba(255,255,255,0.2)'}}, c.name),
+          clientProjects.map(p => 
+            React.createElement('div', {
+              key:p.id,
+              className:`sidebar-project-item${p.id===activeProjectId?' active':''}`,
+              onClick:()=>onSelectProject(p.id)
+            },
+              React.createElement('div', {className:'sidebar-project-dot'}),
+              React.createElement('div', {className:'sidebar-project-name'}, p.name)
+            )
+          )
+        );
+      }),
 
-      React.createElement('div', {
-        className:'sidebar-new-project',
-        onClick:onNewProject
-      },
-        React.createElement('svg', {width:14,height:14,fill:'none',viewBox:'0 0 24 24',stroke:'currentColor',strokeWidth:2.5},
-          React.createElement('path',{strokeLinecap:'round',strokeLinejoin:'round',d:'M12 4v16m8-8H4'})
+      React.createElement('div', {style:{marginTop:12, display:'flex', flexDirection:'column', gap:4}},
+        React.createElement('div', {
+          className:'sidebar-new-project',
+          onClick:onNewClient,
+          style:{marginBottom:0, background:'rgba(255,255,255,0.02)'}
+        },
+          React.createElement('svg', {width:14,height:14,fill:'none',viewBox:'0 0 24 24',stroke:'currentColor',strokeWidth:2.5},
+            React.createElement('path',{strokeLinecap:'round',strokeLinejoin:'round',d:'M12 4v16m8-8H4'})
+          ),
+          'New Client'
         ),
-        'New Project'
+        React.createElement('div', {
+          className:'sidebar-new-project',
+          onClick:onNewProject
+        },
+          React.createElement('svg', {width:14,height:14,fill:'none',viewBox:'0 0 24 24',stroke:'currentColor',strokeWidth:2.5},
+            React.createElement('path',{strokeLinecap:'round',strokeLinejoin:'round',d:'M12 4v16m8-8H4'})
+          ),
+          'New Project'
+        )
       )
     ),
 
@@ -4013,8 +4279,9 @@ function Sidebar({projects, activeProjectId, onSelectDash, onSelectProject, onNe
 }
 
 // ── Dashboard ──
-function Dashboard({projects, onNewProject, onSelectProject, onNewDoc, onDeleteProject}) {
+function Dashboard({clients, onNewProject, onNewClient, onSelectProject, onNewDoc, onDeleteProject, onDeleteClient}) {
   const allDocs = DB.getDocs();
+  const projects = DB.getProjectsWithMeta();
   const totalSows = allDocs.filter(d=>d.type==='acquia-sow'||d.type==='cd-sow').length;
   const totalCrs = allDocs.filter(d=>d.type==='cr').length;
 
@@ -4024,6 +4291,9 @@ function Dashboard({projects, onNewProject, onSelectProject, onNewDoc, onDeleteP
         React.createElement('strong', null, 'Dashboard')
       ),
       React.createElement('div', {className:'topbar-actions'},
+        React.createElement('button', {className:'btn btn-secondary btn-sm', onClick:onNewClient},
+          '+ New Client'
+        ),
         React.createElement('button', {className:'btn btn-primary btn-sm', onClick:onNewProject},
           '+ New Project'
         )
@@ -4031,91 +4301,86 @@ function Dashboard({projects, onNewProject, onSelectProject, onNewDoc, onDeleteP
     ),
 
     React.createElement('div', {className:'page-body'},
-      React.createElement('div', {className:'dash-header'},
+      React.createElement('div', {className:'dash-header animate-in'},
         React.createElement('div', {className:'dash-title'}, 'SOW & CR Hub'),
         React.createElement('div', {className:'dash-sub'}, 'Create, track, and manage all your Statements of Work and Change Requests')
       ),
 
       // Stats
       React.createElement('div', {className:'stats-row'},
-        React.createElement('div', {className:'stat-card'},
-          React.createElement('div', {className:'stat-value'}, projects.length),
-          React.createElement('div', {className:'stat-label'}, 'Projects')
-        ),
-        React.createElement('div', {className:'stat-card'},
-          React.createElement('div', {className:'stat-value'}, totalSows),
-          React.createElement('div', {className:'stat-label'}, 'Statements of Work')
-        ),
-        React.createElement('div', {className:'stat-card'},
-          React.createElement('div', {className:'stat-value'}, totalCrs),
-          React.createElement('div', {className:'stat-label'}, 'Change Requests')
-        ),
-        React.createElement('div', {className:'stat-card'},
-          React.createElement('div', {className:'stat-value'}, allDocs.length),
-          React.createElement('div', {className:'stat-label'}, 'Total Documents')
+        [
+          { val: clients.length, label: 'Clients' },
+          { val: projects.length, label: 'Projects' },
+          { val: totalSows, label: 'Statements of Work' },
+          { val: totalCrs, label: 'Change Requests' }
+        ].map((s, i) => 
+          React.createElement('div', {
+            key: i, 
+            className:'stat-card animate-in', 
+            style: { animationDelay: `${0.1 + (i * 0.05)}s` }
+          },
+            React.createElement('div', {className:'stat-value'}, s.val),
+            React.createElement('div', {className:'stat-label'}, s.label)
+          )
         )
       ),
 
-      // Quick actions
-      React.createElement('div', {className:'section-header'},
-        React.createElement('div', {className:'section-title'}, 'Quick Create')
-      ),
-      React.createElement('div', {className:'quick-actions'},
-        React.createElement('div', {className:'quick-action', onClick:()=>onNewDoc('acquia-sow')},
-          React.createElement('span', {className:'quick-action-icon'}, '⭐'),
-          'New Acquia SOW'
-        ),
-        React.createElement('div', {className:'quick-action', onClick:()=>onNewDoc('cd-sow')},
-          React.createElement('span', {className:'quick-action-icon'}, '📄'),
-          'New CD SOW'
-        ),
-        React.createElement('div', {className:'quick-action', onClick:()=>onNewDoc('cr')},
-          React.createElement('span', {className:'quick-action-icon'}, '📝'),
-          'New Change Request'
-        ),
-        React.createElement('div', {className:'quick-action', onClick:onNewProject},
-          React.createElement('span', {className:'quick-action-icon'}, '📁'),
-          'New Project'
+      // Clients & Projects
+      clients.length === 0 
+      ? React.createElement('div', {className:'project-empty-state animate-in', style: { animationDelay: '0.3s' }},
+          React.createElement('div', {className:'project-empty-icon'}, '🏢'),
+          React.createElement('div', {className:'project-empty-title'}, 'No clients yet'),
+          React.createElement('div', {className:'project-empty-sub'}, 'Add a client to start organizing your projects'),
+          React.createElement('button', {className:'btn btn-primary', onClick:onNewClient}, '+ Create First Client')
         )
-      ),
-
-      // Projects grid
-      React.createElement('div', {className:'section-header'},
-        React.createElement('div', {className:'section-title'}, 'Projects')
-      ),
-      React.createElement('div', {className:'projects-grid'},
-        projects.length === 0
-          ? React.createElement('div', {className:'project-empty-state'},
-              React.createElement('div', {className:'project-empty-icon'}, '📁'),
-              React.createElement('div', {className:'project-empty-title'}, 'No projects yet'),
-              React.createElement('div', {className:'project-empty-sub'}, 'Create a project to organize your SOWs and CRs'),
-              React.createElement('button', {className:'btn btn-primary', onClick:onNewProject}, '+ Create First Project')
-            )
-          : projects.map(p=>
-              React.createElement('div', {
-                key:p.id,
-                className:'card card-hover project-card',
-                onClick:()=>onSelectProject(p.id)
-              },
-                React.createElement('button', {
-                  className: 'resource-remove',
-                  style: {position:'absolute', top:10, right:10, zIndex:10, background:'rgba(220,38,38,0.1)', border:'1px solid rgba(220,38,38,0.2)'},
-                  title: 'Delete Project',
-                  onClick: (e) => { e.stopPropagation(); onDeleteProject(p); }
-                }, React.createElement(IconX, null)),
-                React.createElement('div', {className:'project-card-client'}, p.client || 'No client'),
-                React.createElement('div', {className:'project-card-name'}, p.name),
-                React.createElement('div', {className:'project-card-meta'},
-                  React.createElement('div', {className:'project-card-docs'},
-                    p.sowCount > 0 && React.createElement('span', {className:'doc-type-pill pill-acquia'}, p.sowCount+' SOW'),
-                    p.crCount > 0 && React.createElement('span', {className:'doc-type-pill pill-cr'}, p.crCount+' CR'),
-                    p.docCount === 0 && React.createElement('span', {style:{fontSize:11,color:'var(--text3)'}}, 'No documents yet')
-                  ),
-                  React.createElement('div', {className:'project-card-date'}, relDate(p.createdAt))
+      : clients.map((c, ci) => {
+          const clientProjects = projects.filter(p => p.clientId === c.id);
+          return React.createElement('div', {key:c.id, className:'animate-in', style:{marginBottom:40, animationDelay: `${0.3 + (ci * 0.1)}s`}},
+            React.createElement('div', {className:'section-header'},
+              React.createElement('div', {className:'section-title', style:{display:'flex', alignItems:'center', gap:12}}, 
+                React.createElement('span', {style:{opacity:0.5}}, '🏢'),
+                c.name,
+                React.createElement('span', {style:{fontSize:11, fontWeight:500, color:'var(--text3)', background:'var(--surface2)', padding:'2px 8px', borderRadius:6}}, clientProjects.length + ' Projects')
+              ),
+              React.createElement('button', {
+                className:'btn btn-secondary btn-xs', 
+                style:{color:'var(--red)', borderColor:'rgba(239,68,68,0.2)'},
+                onClick:() => onDeleteClient(c)
+              }, 'Delete Client')
+            ),
+            React.createElement('div', {className:'projects-grid'},
+              clientProjects.length === 0
+              ? React.createElement('div', {className:'project-empty-state', style:{gridColumn:'1/-1', padding:'30px', background:'var(--surface2)'}},
+                  React.createElement('div', {className:'project-empty-sub'}, 'No projects for this client yet'),
+                  React.createElement('button', {className:'btn btn-secondary btn-xs', onClick:onNewProject}, '+ Add Project')
                 )
-              )
+              : clientProjects.map((p, pi) =>
+                  React.createElement('div', {
+                    key:p.id,
+                    className:'card card-hover project-card',
+                    onClick:()=>onSelectProject(p.id)
+                  },
+                    React.createElement('button', {
+                      className: 'resource-remove',
+                      style: {position:'absolute', top:10, right:10, zIndex:10, background:'rgba(220,38,38,0.1)', border:'1px solid rgba(220,38,38,0.2)'},
+                      title: 'Delete Project',
+                      onClick: (e) => { e.stopPropagation(); onDeleteProject(p); }
+                    }, React.createElement(IconX, null)),
+                    React.createElement('div', {className:'project-card-client'}, c.name),
+                    React.createElement('div', {className:'project-card-name'}, p.name),
+                    React.createElement('div', {className:'project-card-meta'},
+                      React.createElement('div', {className:'project-card-docs'},
+                        p.sowCount > 0 && React.createElement('span', {className:'doc-type-pill pill-acquia'}, p.sowCount+' SOW'),
+                        p.crCount > 0 && React.createElement('span', {className:'doc-type-pill pill-cr'}, p.crCount+' CR'),
+                        p.docCount === 0 && React.createElement('span', {style:{fontSize:11,color:'var(--text3)'}}, 'No documents yet')
+                      ),
+                      React.createElement('div', {className:'project-card-date'}, relDate(p.createdAt))
+                    )
+                  )
+                )
             )
-      )
+          );
+        })
     )
   );
 }
@@ -4345,7 +4610,7 @@ function FormWrapper({type, project, prefill, isUpdate, onBack, onComplete}) {
   
   const formInitData = (isUpdate && prefill) ? prefill.data : null;
 
-  return React.createElement('div', {style:{flex:1,display:'flex',flexDirection:'column',height:'100vh',overflow:'hidden'}},
+  return React.createElement('div', {style:{flex:1,display:'flex',flexDirection:'column',width:'100%',overflow:'hidden'}},
     React.createElement('div', {className:'topbar'},
       React.createElement('div', {className:'topbar-breadcrumb'},
         React.createElement('a', {onClick:onBack}, 'Dashboard'),
@@ -4357,7 +4622,7 @@ function FormWrapper({type, project, prefill, isUpdate, onBack, onComplete}) {
         React.createElement('strong', null, isUpdate ? 'Edit Document' : breadcrumbTitle)
       )
     ),
-    React.createElement('div', {style:{flex:1,overflow:'hidden',display:'flex'}},
+    React.createElement('div', {style:{flex:1,overflow:'hidden',display:'flex', width:'100%'}},
       type==='acquia-sow' && React.createElement(AcquiaSOWForm, {onBack, onComplete:handleComplete, prefill:formInitData}),
       (type==='sow'||type==='cd-sow') && React.createElement(SOWForm, {onBack, onComplete:handleComplete, prefill:formInitData}),
       (type==='cr'||type==='cr-raw') && React.createElement(CRForm, {prefill: formInitData || (prefill?.data||null), onBack, onComplete:handleComplete}),
@@ -4381,24 +4646,50 @@ function FormWrapper({type, project, prefill, isUpdate, onBack, onComplete}) {
 // ═══════════════════════════════════════════════════════════
 function App() {
   const [view, setView] = useState('dashboard'); 
-  // view: 'dashboard' | 'project' | 'form'
   const [activeProjectId, setActiveProjectId] = useState(null);
   const [formConfig, setFormConfig] = useState(null); 
-  // formConfig: {type, project, prefill}
   const [showNewProject, setShowNewProject] = useState(false);
+  const [showNewClient, setShowNewClient] = useState(false);
   const [deleteTargetProject, setDeleteTargetProject] = useState(null);
-  const [showNewDoc, setShowNewDoc] = useState(null); // {project, parentDoc}
-  const [pendingQuickType, setPendingQuickType] = useState(null); // 'acquia-sow'|'cd-sow'|'cr' from dashboard quick actions
+  const [deleteTargetClient, setDeleteTargetClient] = useState(null);
+  const [showNewDoc, setShowNewDoc] = useState(null); 
+  const [pendingQuickType, setPendingQuickType] = useState(null); 
   const [docRefresh, setDocRefresh] = useState(0);
 
+  const [clients, setClients] = useState(() => DB.getClients());
   const [projects, setProjects] = useState(() => DB.getProjectsWithMeta());
-  const refreshProjects = () => setProjects(DB.getProjectsWithMeta());
+  
+  const refreshData = () => {
+    setClients(DB.getClients());
+    setProjects(DB.getProjectsWithMeta());
+  };
 
   const handleNewProject = (project) => {
-    refreshProjects();
+    refreshData();
     setShowNewProject(false);
     setActiveProjectId(project.id);
     setView('project');
+  };
+
+  const handleNewClient = (client) => {
+    refreshData();
+    setShowNewClient(false);
+    // If we had a pending quick create, now show the project modal
+    if (pendingQuickType) {
+      setShowNewProject(true);
+    }
+  };
+
+  const handleDeleteClientConfirm = (reassignToId) => {
+    if (deleteTargetClient) {
+      DB.deleteClient(deleteTargetClient.id, reassignToId);
+      setDeleteTargetClient(null);
+      refreshData();
+      if (view === 'project' && projects.find(p => p.id === activeProjectId && p.clientId === deleteTargetClient.id)) {
+        setView('dashboard');
+        setActiveProjectId(null);
+      }
+    }
   };
 
   const handleSelectProject = (id) => {
@@ -4409,7 +4700,7 @@ function App() {
   const handleSelectDash = () => {
     setActiveProjectId(null);
     setView('dashboard');
-    refreshProjects();
+    refreshData();
   };
   
   const handleDeleteProjectConfirm = (project) => {
@@ -4420,13 +4711,15 @@ function App() {
     if(deleteTargetProject) {
       DB.deleteProject(deleteTargetProject.id);
       setDeleteTargetProject(null);
-      refreshProjects();
+      refreshData();
+      if (activeProjectId === deleteTargetProject.id) {
+        setView('dashboard');
+        setActiveProjectId(null);
+      }
     }
   };
 
-  // Quick create from dashboard (no project yet)
   const handleQuickCreate = (type) => {
-    // If we have a project selected, add to it
     if(activeProjectId) {
       const project = projects.find(p=>p.id===activeProjectId);
       if(project) {
@@ -4434,9 +4727,12 @@ function App() {
         return;
       }
     }
-    // Otherwise prompt to pick/create project
     setPendingQuickType(type);
-    setShowNewProject(true);
+    if (clients.length === 0) {
+      setShowNewClient(true);
+    } else {
+      setShowNewProject(true);
+    }
   };
 
   const handleNewDocForProject = (project, parentDoc) => {
@@ -4461,11 +4757,10 @@ function App() {
 
   const handleFormComplete = (result) => {
     if(result && result.__switchToCR) {
-      // CRFromSOW/CRFromCR → switch to CRForm with prefill
       setFormConfig(prev=>({...prev, type:'cr', prefill:{data:result.prefill}}));
       return;
     }
-    refreshProjects();
+    refreshData();
     setDocRefresh(r=>r+1);
     if(formConfig?.project) {
       setActiveProjectId(formConfig.project.id);
@@ -4486,35 +4781,26 @@ function App() {
     setFormConfig(null);
   };
 
-  // Handle pending quick type after project created
-  const handleNewProjectWithPending = (project) => {
-    refreshProjects();
-    setShowNewProject(false);
-    if(pendingQuickType) {
-      startForm(pendingQuickType, project, null);
-      setPendingQuickType(null);
-    } else {
-      setActiveProjectId(project.id);
-      setView('project');
-    }
-  };
-
   return React.createElement(React.Fragment, null,
     React.createElement(Sidebar, {
+      clients,
       projects,
       activeProjectId: view==='project' ? activeProjectId : null,
       onSelectDash: handleSelectDash,
       onSelectProject: handleSelectProject,
-      onNewProject: ()=>{ setPendingQuickType(null); setShowNewProject(true); }
+      onNewProject: ()=>{ setPendingQuickType(null); setShowNewProject(true); },
+      onNewClient: ()=>{ setPendingQuickType(null); setShowNewClient(true); }
     }),
 
     React.createElement('div', {className:'main'},
       view==='dashboard' && React.createElement(Dashboard, {
-        projects,
+        clients,
         onNewProject:()=>{ setPendingQuickType(null); setShowNewProject(true); },
+        onNewClient:()=>{ setPendingQuickType(null); setShowNewClient(true); },
         onSelectProject:handleSelectProject,
         onNewDoc:handleQuickCreate,
-        onDeleteProject:handleDeleteProjectConfirm
+        onDeleteProject:handleDeleteProjectConfirm,
+        onDeleteClient:setDeleteTargetClient
       }),
 
       view==='project' && activeProjectId && React.createElement(ProjectView, {
@@ -4536,9 +4822,14 @@ function App() {
     ),
 
     // Modals
+    showNewClient && React.createElement(NewClientModal, {
+      onClose:()=>{ setShowNewClient(false); setPendingQuickType(null); },
+      onCreated:handleNewClient
+    }),
+
     showNewProject && React.createElement(NewProjectModal, {
       onClose:()=>{ setShowNewProject(false); setPendingQuickType(null); },
-      onCreated:handleNewProjectWithPending
+      onCreated:handleNewProject
     }),
 
     showNewDoc && React.createElement(NewDocModal, {
@@ -4548,12 +4839,22 @@ function App() {
       onSelect:handleDocTypeSelected
     }),
     
-    // Dashboard Delete Confirm
+    // Deletion Modals
     deleteTargetProject && React.createElement(DeleteConfirmModal, {
       title:'Delete Project',
       message:`Delete "${deleteTargetProject.name}" and all its documents? This cannot be undone.`,
       onConfirm:handleDoDeleteProject,
       onClose:()=>setDeleteTargetProject(null)
+    }),
+
+    deleteTargetClient && React.createElement(DeleteClientModal, {
+      client: {
+        ...deleteTargetClient,
+        projectCount: projects.filter(p => p.clientId === deleteTargetClient.id).length
+      },
+      otherClients: clients.filter(c => c.id !== deleteTargetClient.id),
+      onClose: ()=>setDeleteTargetClient(null),
+      onConfirm: handleDeleteClientConfirm
     })
   );
 }

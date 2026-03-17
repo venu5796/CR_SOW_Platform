@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOW & CR App — Page Flows</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    --purple: #7F77DD;
+    --purple-light: #EEEDFE;
+    --purple-dark: #3C3489;
+    --teal: #1D9E75;
+    --teal-light: #E1F5EE;
+    --teal-dark: #0F6E56;
+    --amber: #BA7517;
+    --amber-light: #FAEEDA;
+    --amber-dark: #854F0B;
+    --coral: #D85A30;
+    --coral-light: #FAECE7;
+    --coral-dark: #993C1D;
+    --blue: #378ADD;
+    --blue-light: #E6F1FB;
+    --blue-dark: #185FA5;
+    --gray: #888780;
+    --gray-light: #F1EFE8;
+    --gray-dark: #444441;
+    --bg: #FAFAF8;
+    --bg2: #F3F2EE;
+    --bg3: #ECEAE4;
+    --border: rgba(0,0,0,0.1);
+    --border2: rgba(0,0,0,0.18);
+    --text: #1A1A18;
+    --text2: #5A5A56;
+    --text3: #9A9A94;
+    --white: #FFFFFF;
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    background: var(--text);
+    color: var(--white);
+    padding: 80px 60px 60px;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -120px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(127,119,221,0.25) 0%, transparent 70%);
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: -80px;
+    width: 350px; height: 350px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(29,158,117,0.2) 0%, transparent 70%);
+  }
+  .cover-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 24px;
+  }
+  .cover h1 {
+    font-size: 48px;
+    font-weight: 600;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .cover h1 span { color: var(--purple); }
+  .cover-sub {
+    font-size: 16px;
+    color: rgba(255,255,255,0.55);
+    max-width: 480px;
+    margin-bottom: 48px;
+    position: relative;
+    z-index: 1;
+  }
+  .cover-meta {
+    display: flex;
+    gap: 32px;
+    position: relative;
+    z-index: 1;
+  }
+  .cover-meta-item { }
+  .cover-meta-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.35); margin-bottom: 4px; }
+  .cover-meta-val { font-size: 13px; color: rgba(255,255,255,0.75); }
+
+  /* ── LAYOUT ── */
+  .page { padding: 48px 60px; border-bottom: 1px solid var(--border); }
+  .page:last-child { border-bottom: none; }
+
+  .page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .page-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 0.08em;
+  }
+  .page-title { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+  .page-desc { font-size: 13px; color: var(--text2); max-width: 560px; }
+
+  /* ── COMPONENTS ── */
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 99px;
+    letter-spacing: 0.03em;
+  }
+  .badge-purple { background: var(--purple-light); color: var(--purple-dark); }
+  .badge-teal { background: var(--teal-light); color: var(--teal-dark); }
+  .badge-amber { background: var(--amber-light); color: var(--amber-dark); }
+  .badge-coral { background: var(--coral-light); color: var(--coral-dark); }
+  .badge-blue { background: var(--blue-light); color: var(--blue-dark); }
+  .badge-gray { background: var(--gray-light); color: var(--gray-dark); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
+
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+  }
+  .card h3 { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+  .card p { font-size: 12px; color: var(--text2); line-height: 1.5; }
+
+  .screen-wrap {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 4px;
+  }
+  .screen-title-bar {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 9px 14px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .screen-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .screen-body { padding: 14px 16px; }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 12px;
+  }
+
+  .status {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 99px;
+  }
+  .s-draft { background: var(--gray-light); color: var(--gray-dark); }
+  .s-review { background: var(--amber-light); color: var(--amber-dark); }
+  .s-approved { background: var(--teal-light); color: var(--teal-dark); }
+  .s-imported { background: var(--blue-light); color: var(--blue-dark); }
+  .s-final { background: #1A1A18; color: #FAFAF8; }
+
+  /* ── FLOW ARROWS ── */
+  .flow-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+  .flow-step {
+    font-size: 11px;
+    padding: 5px 10px;
+    border-radius: 99px;
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--text2);
+    white-space: nowrap;
+  }
+  .flow-arrow { font-size: 12px; color: var(--text3); }
+  .flow-step.hl-purple { background: var(--purple-light); border-color: var(--purple); color: var(--purple-dark); }
+  .flow-step.hl-teal { background: var(--teal-light); border-color: var(--teal); color: var(--teal-dark); }
+  .flow-step.hl-amber { background: var(--amber-light); border-color: var(--amber); color: var(--amber-dark); }
+  .flow-step.hl-blue { background: var(--blue-light); border-color: var(--blue); color: var(--blue-dark); }
+
+  /* ── CHAIN ── */
+  .chain { display: flex; flex-direction: column; gap: 0; }
+  .chain-node {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--white);
+    font-size: 12px;
+  }
+  .chain-indent { margin-left: 20px; }
+  .chain-indent-2 { margin-left: 40px; }
+  .chain-indent-3 { margin-left: 60px; }
+  .chain-line { width: 1px; height: 12px; background: var(--border2); margin-left: 20px; }
+  .chain-line-2 { margin-left: 40px; }
+  .chain-line-3 { margin-left: 60px; }
+  .chain-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── STEPS ── */
+  .steps { display: flex; flex-direction: column; gap: 0; }
+  .step {
+    display: flex;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .step-content { flex: 1; }
+  .step-title { font-size: 13px; font-weight: 500; margin-bottom: 3px; }
+  .step-desc { font-size: 12px; color: var(--text2); line-height: 1.5; }
+  .step-note {
+    margin-top: 6px;
+    padding: 6px 10px;
+    background: var(--bg2);
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    color: var(--text3);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── FIELD ROWS ── */
+  .field-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+  }
+  .field-row:last-child { border-bottom: none; }
+  .field-label { color: var(--text3); width: 110px; flex-shrink: 0; }
+  .field-val { flex: 1; color: var(--text); }
+  .field-tag { font-size: 9px; padding: 1px 6px; border-radius: 99px; }
+  .ft-auto { background: var(--teal-light); color: var(--teal-dark); }
+  .ft-check { background: var(--amber-light); color: var(--amber-dark); }
+  .ft-manual { background: var(--gray-light); color: var(--gray-dark); }
+
+  /* ── SECTION ROWS ── */
+  .sec-row {
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+  .sec-required { background: var(--purple-light); color: var(--purple-dark); border: 1px solid #AFA9EC; }
+  .sec-optional { background: var(--bg2); color: var(--text2); border: 1px solid var(--border); }
+  .sec-conditional { background: var(--amber-light); color: var(--amber-dark); border: 1px solid #FAC775; }
+  .sec-tag { margin-left: auto; font-size: 10px; opacity: 0.7; }
+
+  /* ── PROGRESS PILLS ── */
+  .progress-pills { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 14px; }
+  .pill {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 99px;
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--text3);
+  }
+  .pill.done { background: var(--teal-light); border-color: var(--teal); color: var(--teal-dark); }
+  .pill.active { background: var(--purple-light); border-color: var(--purple); color: var(--purple-dark); font-weight: 500; }
+  .pill-arrow { font-size: 11px; color: var(--text3); padding: 0 1px; align-self: center; }
+
+  /* ── APPROVAL ── */
+  .approver-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+  }
+  .approver-row:last-child { border-bottom: none; }
+  .avatar {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  /* ── NAV ── */
+  .nav-wrap {
+    position: sticky;
+    top: 0;
+    background: rgba(250,250,248,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 60px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 100;
+    flex-wrap: wrap;
+  }
+  .nav-link {
+    font-size: 12px;
+    color: var(--text2);
+    text-decoration: none;
+    padding: 4px 10px;
+    border-radius: 99px;
+    transition: background 0.15s;
+  }
+  .nav-link:hover { background: var(--bg2); }
+  .nav-dot { color: var(--text3); font-size: 10px; }
+
+  /* ── TABLE OF CONTENTS ── */
+  .toc-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    text-decoration: none;
+    color: var(--text);
+    gap: 12px;
+  }
+  .toc-row:last-child { border-bottom: none; }
+  .toc-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); width: 28px; flex-shrink: 0; }
+  .toc-title { flex: 1; font-weight: 500; }
+  .toc-desc { font-size: 12px; color: var(--text2); }
+  .toc-arrow { color: var(--text3); font-size: 12px; }
+
+  /* ── DECISION BOX ── */
+  .decision {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  .decision-q { font-size: 12px; font-weight: 500; margin-bottom: 8px; }
+  .decision-opts { display: flex; flex-direction: column; gap: 5px; }
+  .decision-opt {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text2);
+    padding: 5px 8px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+  }
+  .decision-opt-icon { font-size: 14px; flex-shrink: 0; }
+
+  /* Print */
+  @media print {
+    .nav-wrap { display: none; }
+    .page { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav-wrap">
+  <a href="#cover" class="nav-link">Cover</a>
+  <span class="nav-dot">·</span>
+  <a href="#toc" class="nav-link">Contents</a>
+  <span class="nav-dot">·</span>
+  <a href="#p1" class="nav-link">1 · Overview</a>
+  <span class="nav-dot">·</span>
+  <a href="#p2" class="nav-link">2 · Dashboard</a>
+  <span class="nav-dot">·</span>
+  <a href="#p3" class="nav-link">3 · New Document</a>
+  <span class="nav-dot">·</span>
+  <a href="#p4" class="nav-link">4 · SOW Editor</a>
+  <span class="nav-dot">·</span>
+  <a href="#p5" class="nav-link">5 · CR Editor</a>
+  <span class="nav-dot">·</span>
+  <a href="#p6" class="nav-link">6 · Import</a>
+  <span class="nav-dot">·</span>
+  <a href="#p7" class="nav-link">7 · Chain View</a>
+  <span class="nav-dot">·</span>
+  <a href="#p8" class="nav-link">8 · Approvals</a>
+  <span class="nav-dot">·</span>
+  <a href="#p9" class="nav-link">9 · Export</a>
+  <span class="nav-dot">·</span>
+  <a href="#p10" class="nav-link">10 · Templates</a>
+</nav>
+
+<!-- COVER -->
+<div class="cover" id="cover">
+  <div class="cover-tag">Product specification · v1.0</div>
+  <h1>SOW & CR<br><span>App Flows</span></h1>
+  <p class="cover-sub">Complete page-by-page flow documentation for the Statement of Work and Change Request management application.</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">Pages</div>
+      <div class="cover-meta-val">10 screens</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">Users</div>
+      <div class="cover-meta-val">Project Managers · Sales</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">Platform</div>
+      <div class="cover-meta-val">Web · HTML</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">Status</div>
+      <div class="cover-meta-val">Specification draft</div>
+    </div>
+  </div>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<div class="page" id="toc">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Table of Contents</div>
+      <div class="page-desc">All pages and flows documented in this specification.</div>
+    </div>
+    <div class="page-number">00</div>
+  </div>
+
+  <div class="card" style="padding: 0 18px;">
+    <a href="#p1" class="toc-row"><span class="toc-num">01</span><span class="toc-title">App overview & data model</span><span class="toc-desc">SOW/CR hierarchy, chain rules, key concepts</span><span class="toc-arrow">→</span></a>
+    <a href="#p2" class="toc-row"><span class="toc-num">02</span><span class="toc-title">Dashboard</span><span class="toc-desc">Home screen, project list, pending actions</span><span class="toc-arrow">→</span></a>
+    <a href="#p3" class="toc-row"><span class="toc-num">03</span><span class="toc-title">New document — entry point</span><span class="toc-desc">Three ways to start: scratch, import, template</span><span class="toc-arrow">→</span></a>
+    <a href="#p4" class="toc-row"><span class="toc-num">04</span><span class="toc-title">SOW guided form</span><span class="toc-desc">6-step form, section structure, saving</span><span class="toc-arrow">→</span></a>
+    <a href="#p5" class="toc-row"><span class="toc-num">05</span><span class="toc-title">CR guided form</span><span class="toc-desc">Change-type selection, fewer sections, parent linking</span><span class="toc-arrow">→</span></a>
+    <a href="#p6" class="toc-row"><span class="toc-num">06</span><span class="toc-title">Import flow</span><span class="toc-desc">Upload old docs, extract, review, map sections, build chain</span><span class="toc-arrow">→</span></a>
+    <a href="#p7" class="toc-row"><span class="toc-num">07</span><span class="toc-title">Project & chain view</span><span class="toc-desc">SOW → CR chain, extend any node, chain rules</span><span class="toc-arrow">→</span></a>
+    <a href="#p8" class="toc-row"><span class="toc-num">08</span><span class="toc-title">Approval flow</span><span class="toc-desc">Optional per doc, multi-approver, email links, comments</span><span class="toc-arrow">→</span></a>
+    <a href="#p9" class="toc-row"><span class="toc-num">09</span><span class="toc-title">Export & sharing</span><span class="toc-desc">PDF export, share links, version history</span><span class="toc-arrow">→</span></a>
+    <a href="#p10" class="toc-row"><span class="toc-num">10</span><span class="toc-title">Templates</span><span class="toc-desc">Default templates, save custom, manage library</span><span class="toc-arrow">→</span></a>
+  </div>
+</div>
+
+<!-- PAGE 1: OVERVIEW -->
+<div class="page" id="p1">
+  <div class="page-header">
+    <div>
+      <div class="page-title">App overview & data model</div>
+      <div class="page-desc">Core concepts, document hierarchy, and chain rules that underpin the entire application.</div>
+    </div>
+    <div class="page-number">01</div>
+  </div>
+
+  <div class="section-label">Core document types</div>
+  <div class="grid-2" style="margin-bottom: 24px;">
+    <div class="card" style="border-left: 3px solid var(--purple);">
+      <div style="margin-bottom: 8px;"><span class="badge badge-purple">SOW — Statement of Work</span></div>
+      <p>The root document. Defines the full scope of an engagement — deliverables, timeline, budget, resources, and terms. Every project starts with an SOW. Contains 6 sections: Project info, Scope, Timeline, Budget, Resources, Terms.</p>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--teal);">
+      <div style="margin-bottom: 8px;"><span class="badge badge-teal">CR — Change Request</span></div>
+      <p>Extends a parent document. Captures only what is changing — scope, budget, timeline, or resources. A CR inherits all values from its parent and calculates running totals automatically. Contains fewer sections than an SOW.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-label">Chain rules</div>
+  <div class="grid-2" style="margin-bottom: 24px;">
+    <div>
+      <div class="chain">
+        <div class="chain-node" style="border-left: 3px solid var(--purple);">
+          <div class="chain-dot" style="background: var(--purple);"></div>
+          <div style="flex:1;"><strong>SOW</strong> <span style="color:var(--text3);">— root document</span></div>
+          <span class="status s-approved">approved</span>
+        </div>
+        <div class="chain-line"></div>
+        <div class="chain-node chain-indent" style="border-left: 3px solid var(--teal);">
+          <div class="chain-dot" style="background: var(--teal);"></div>
+          <div style="flex:1;"><strong>CR #1</strong> <span style="color:var(--text3);">parent = SOW</span></div>
+          <span class="status s-approved">approved</span>
+        </div>
+        <div class="chain-line chain-line-2"></div>
+        <div class="chain-node chain-indent-2" style="border-left: 3px solid var(--amber);">
+          <div class="chain-dot" style="background: var(--amber);"></div>
+          <div style="flex:1;"><strong>CR #2</strong> <span style="color:var(--text3);">parent = CR #1</span></div>
+          <span class="status s-review">in review</span>
+        </div>
+        <div class="chain-line chain-line-3"></div>
+        <div class="chain-node chain-indent-3" style="border-left: 3px solid var(--coral);">
+          <div class="chain-dot" style="background: var(--coral);"></div>
+          <div style="flex:1;"><strong>CR #3</strong> <span style="color:var(--text3);">parent = CR #2</span></div>
+          <span class="status s-draft">draft</span>
+        </div>
+      </div>
+      <p style="font-size:11px;color:var(--text3);margin-top:8px;">Standard chain: SOW is root, CRs extend in sequence.</p>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div class="card" style="background: var(--purple-light); border-color: var(--purple);">
+        <h3 style="color: var(--purple-dark);">SOW as parent (default)</h3>
+        <p>Every new project starts with an SOW. CRs normally link to the SOW as their parent unless explicitly set otherwise.</p>
+      </div>
+      <div class="card" style="background: var(--teal-light); border-color: var(--teal);">
+        <h3 style="color: var(--teal-dark);">CR as parent (flexible)</h3>
+        <p>Any CR can become the parent of a new CR. The chain can extend indefinitely. Running budget and period totals accumulate across the full chain.</p>
+      </div>
+      <div class="card" style="background: var(--gray-light); border-color: var(--gray);">
+        <h3 style="color: var(--gray-dark);">Detached CR</h3>
+        <p>A CR can exist without a parent if needed. All values entered manually. Useful when the original SOW is unavailable and import is not practical.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-label">What each document carries</div>
+  <div class="grid-2">
+    <div class="card">
+      <div style="margin-bottom:8px;font-size:12px;font-weight:500;">SOW fields</div>
+      <div class="field-row"><span class="field-label">Project name</span><span class="field-val">Client / engagement name</span></div>
+      <div class="field-row"><span class="field-label">Scope</span><span class="field-val">Deliverables, assumptions, exclusions</span></div>
+      <div class="field-row"><span class="field-label">Timeline</span><span class="field-val">Start date, end date, milestones</span></div>
+      <div class="field-row"><span class="field-label">Budget</span><span class="field-val">Total value, breakdown</span></div>
+      <div class="field-row"><span class="field-label">Resources</span><span class="field-val">Team members, roles</span></div>
+      <div class="field-row"><span class="field-label">Terms</span><span class="field-val">T&Cs, payment terms</span></div>
+      <div class="field-row"><span class="field-label">Origin</span><span class="field-val">Built in app / imported</span></div>
+    </div>
+    <div class="card">
+      <div style="margin-bottom:8px;font-size:12px;font-weight:500;">CR fields (inherited + delta)</div>
+      <div class="field-row"><span class="field-label">CR title</span><span class="field-val">Description of the change</span></div>
+      <div class="field-row"><span class="field-label">Parent ref</span><span class="field-val">SOW id or CR id</span></div>
+      <div class="field-row"><span class="field-label">Change types</span><span class="field-val">Scope / budget / timeline / resources</span></div>
+      <div class="field-row"><span class="field-label">Budget delta</span><span class="field-val">+/– amount vs parent</span></div>
+      <div class="field-row"><span class="field-label">Budget total</span><span class="field-val">Running sum across chain</span></div>
+      <div class="field-row"><span class="field-label">Period delta</span><span class="field-val">Extension in months/weeks</span></div>
+      <div class="field-row"><span class="field-label">Period total</span><span class="field-val">Full engagement period</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 2: DASHBOARD -->
+<div class="page" id="p2">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Dashboard</div>
+      <div class="page-desc">The home screen. Shows all projects, pending actions, and recent activity at a glance.</div>
+    </div>
+    <div class="page-number">02</div>
+  </div>
+
+  <div class="section-label">Page layout</div>
+  <div class="screen-wrap" style="margin-bottom: 20px;">
+    <div class="screen-title-bar">
+      <div class="screen-dot" style="background: var(--teal);"></div>
+      Dashboard — home screen
+    </div>
+    <div class="screen-body">
+      <div class="grid-4" style="margin-bottom: 16px;">
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center;">
+          <div style="font-size:22px;font-weight:600;">6</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px;">Active projects</div>
+        </div>
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center;">
+          <div style="font-size:22px;font-weight:600;color:var(--amber);">3</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px;">Pending approval</div>
+        </div>
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center;">
+          <div style="font-size:22px;font-weight:600;">14</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px;">Total CRs</div>
+        </div>
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center;">
+          <div style="font-size:22px;font-weight:600;color:var(--teal);">2</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px;">Ready to export</div>
+        </div>
+      </div>
+      <table style="width:100%;font-size:11px;border-collapse:collapse;">
+        <tr style="border-bottom:1px solid var(--border);">
+          <th style="text-align:left;padding:5px 8px;color:var(--text3);font-weight:500;">Project</th>
+          <th style="text-align:left;padding:5px 8px;color:var(--text3);font-weight:500;">SOW status</th>
+          <th style="text-align:left;padding:5px 8px;color:var(--text3);font-weight:500;">CRs</th>
+          <th style="text-align:left;padding:5px 8px;color:var(--text3);font-weight:500;">Last updated</th>
+          <th style="text-align:left;padding:5px 8px;color:var(--text3);font-weight:500;">Action</th>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:6px 8px;font-weight:500;">Acme Corp</td>
+          <td style="padding:6px 8px;"><span class="status s-approved">Approved</span></td>
+          <td style="padding:6px 8px;color:var(--text2);">3 CRs</td>
+          <td style="padding:6px 8px;color:var(--text3);">Mar 12</td>
+          <td style="padding:6px 8px;"><span style="font-size:10px;color:var(--teal);cursor:pointer;">Export PDF</span></td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:6px 8px;font-weight:500;">NovaTech</td>
+          <td style="padding:6px 8px;"><span class="status s-review">In review</span></td>
+          <td style="padding:6px 8px;color:var(--text2);">1 CR</td>
+          <td style="padding:6px 8px;color:var(--text3);">Mar 11</td>
+          <td style="padding:6px 8px;"><span style="font-size:10px;color:var(--amber);cursor:pointer;">2 approvals pending</span></td>
+        </tr>
+        <tr>
+          <td style="padding:6px 8px;font-weight:500;">Globex</td>
+          <td style="padding:6px 8px;"><span class="status s-draft">Draft</span></td>
+          <td style="padding:6px 8px;color:var(--text2);">—</td>
+          <td style="padding:6px 8px;color:var(--text3);">Mar 10</td>
+          <td style="padding:6px 8px;"><span style="font-size:10px;color:var(--purple);cursor:pointer;">Continue editing</span></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-label">Elements on this page</div>
+  <div class="grid-3">
+    <div class="card">
+      <h3>Summary metrics</h3>
+      <p>Four stat cards at the top: active projects, pending approvals, total CRs, docs ready to export.</p>
+    </div>
+    <div class="card">
+      <h3>Project list</h3>
+      <p>All projects with SOW status, CR count, last updated date, and a contextual action link based on current state.</p>
+    </div>
+    <div class="card">
+      <h3>Quick actions</h3>
+      <p>"New project" button always visible. Pending approvals surface here with a direct link. Recent activity feed below the table.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 3: NEW DOCUMENT ENTRY -->
+<div class="page" id="p3">
+  <div class="page-header">
+    <div>
+      <div class="page-title">New document — entry point</div>
+      <div class="page-desc">The first screen when creating any new SOW or CR. Three paths: build from scratch, import an old doc, or use a template.</div>
+    </div>
+    <div class="page-number">03</div>
+  </div>
+
+  <div class="section-label">Decision: what type of document?</div>
+  <div class="grid-2" style="margin-bottom: 20px;">
+    <div class="decision">
+      <div class="decision-q">What do you want to create?</div>
+      <div class="decision-opts">
+        <div class="decision-opt"><span class="decision-opt-icon">📋</span> SOW — Statement of Work (new project)</div>
+        <div class="decision-opt"><span class="decision-opt-icon">🔄</span> CR — Change Request (extends existing)</div>
+      </div>
+    </div>
+    <div class="decision">
+      <div class="decision-q">How do you want to start?</div>
+      <div class="decision-opts">
+        <div class="decision-opt"><span class="decision-opt-icon">✏️</span> Build from scratch — guided form</div>
+        <div class="decision-opt"><span class="decision-opt-icon">📄</span> Import an existing document</div>
+        <div class="decision-opt"><span class="decision-opt-icon">⎘</span> Start from a template</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">All six entry paths</div>
+  <div class="grid-3">
+    <div class="card" style="border-left: 3px solid var(--purple);">
+      <div style="margin-bottom:8px;"><span class="badge badge-purple">SOW · scratch</span></div>
+      <h3>New SOW from scratch</h3>
+      <p>6-step guided form. Walks through all required sections in order. Progress indicator throughout.</p>
+      <div style="margin-top:8px;">
+        <div class="flow-row">
+          <span class="flow-step hl-purple">Project info</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">Scope</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">Timeline</span>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--teal);">
+      <div style="margin-bottom:8px;"><span class="badge badge-teal">CR · scratch</span></div>
+      <h3>New CR from scratch</h3>
+      <p>Shorter guided form. First step: select parent (SOW or CR). Second: pick what is changing. Only relevant sections shown.</p>
+      <div style="margin-top:8px;">
+        <div class="flow-row">
+          <span class="flow-step hl-teal">Select parent</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">Changes</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">Sections</span>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--amber);">
+      <div style="margin-bottom:8px;"><span class="badge badge-amber">SOW · import</span></div>
+      <h3>Import old SOW</h3>
+      <p>Upload Word/PDF or paste text. App extracts and maps to sections. Full review before saving. Becomes root of a new chain.</p>
+      <div style="margin-top:8px;">
+        <div class="flow-row">
+          <span class="flow-step hl-amber">Upload</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">Review</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">Save</span>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--coral);">
+      <div style="margin-bottom:8px;"><span class="badge badge-coral">CR · import</span></div>
+      <h3>Import old CR as parent</h3>
+      <p>Upload an old CR doc. Extracted values become the inherited base. A new CR is then built on top of it, extending the chain.</p>
+      <div style="margin-top:8px;">
+        <div class="flow-row">
+          <span class="flow-step" style="background:var(--coral-light);border-color:var(--coral);color:var(--coral-dark);">Upload CR</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">Review</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">Set as parent</span>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--blue);">
+      <div style="margin-bottom:8px;"><span class="badge badge-blue">SOW · template</span></div>
+      <h3>SOW from template</h3>
+      <p>Pick a default or saved template. Pre-filled structure and hints. Edit any section before saving.</p>
+      <div style="margin-top:8px;">
+        <div class="flow-row">
+          <span class="flow-step hl-blue">Pick template</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">Edit</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">Save</span>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--gray);">
+      <div style="margin-bottom:8px;"><span class="badge badge-gray">CR · template</span></div>
+      <h3>CR from template</h3>
+      <p>Pick a saved CR template. Still requires selecting a parent before the form is shown. Template pre-fills the change sections.</p>
+      <div style="margin-top:8px;">
+        <div class="flow-row">
+          <span class="flow-step">Select parent</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">Pick template</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">Edit</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 4: SOW EDITOR -->
+<div class="page" id="p4">
+  <div class="page-header">
+    <div>
+      <div class="page-title">SOW guided form</div>
+      <div class="page-desc">6-step guided form for creating a Statement of Work from scratch. One section per step with a persistent progress indicator.</div>
+    </div>
+    <div class="page-number">04</div>
+  </div>
+
+  <div class="section-label">Steps & sections</div>
+  <div class="grid-2" style="margin-bottom: 20px;">
+    <div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num" style="background:var(--purple-light);color:var(--purple-dark);">1</div>
+          <div class="step-content">
+            <div class="step-title">Project info</div>
+            <div class="step-desc">Project name, client name, project code (optional), brief description, document date.</div>
+            <div class="step-note">Required · Always first step</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:var(--purple-light);color:var(--purple-dark);">2</div>
+          <div class="step-content">
+            <div class="step-title">Scope of work</div>
+            <div class="step-desc">Deliverables list, assumptions, exclusions (out of scope). Free text + structured fields.</div>
+            <div class="step-note">Required · Can add multiple deliverable rows</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:var(--purple-light);color:var(--purple-dark);">3</div>
+          <div class="step-content">
+            <div class="step-title">Timeline & milestones</div>
+            <div class="step-desc">Start date, end date, milestone name + date pairs. Duration auto-calculated.</div>
+            <div class="step-note">Required · Add as many milestones as needed</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:var(--purple-light);color:var(--purple-dark);">4</div>
+          <div class="step-content">
+            <div class="step-title">Budget & pricing</div>
+            <div class="step-desc">Total value, currency, payment structure (fixed / T&M / milestone-based), breakdown line items.</div>
+            <div class="step-note">Required · Becomes the base for CR running totals</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:var(--purple-light);color:var(--purple-dark);">5</div>
+          <div class="step-content">
+            <div class="step-title">Resources & team</div>
+            <div class="step-desc">Team member name, role, allocation %. Add as many rows as needed.</div>
+            <div class="step-note">Required · Inherited by CRs unless changed</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:var(--purple-light);color:var(--purple-dark);">6</div>
+          <div class="step-content">
+            <div class="step-title">Terms & conditions</div>
+            <div class="step-desc">Payment terms, IP ownership, confidentiality, governing law. Free text or pre-filled from template.</div>
+            <div class="step-note">Required · Can be copied from a previous SOW</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div class="screen-wrap">
+        <div class="screen-title-bar">
+          <div class="screen-dot" style="background: var(--purple);"></div>
+          SOW form — step 2 of 6 (scope)
+        </div>
+        <div class="screen-body">
+          <div style="background:var(--bg);border-radius:6px;height:4px;margin-bottom:12px;overflow:hidden;">
+            <div style="width:33%;height:100%;background:var(--purple);border-radius:6px;"></div>
+          </div>
+          <div class="progress-pills">
+            <span class="pill done">✓ Project info</span>
+            <span class="pill-arrow">›</span>
+            <span class="pill active">Scope</span>
+            <span class="pill-arrow">›</span>
+            <span class="pill">Timeline</span>
+            <span class="pill-arrow">›</span>
+            <span class="pill">Budget</span>
+            <span class="pill-arrow">›</span>
+            <span class="pill">Resources</span>
+            <span class="pill-arrow">›</span>
+            <span class="pill">Terms</span>
+          </div>
+          <div style="font-size:11px;margin-bottom:6px;color:var(--text3);">Deliverables</div>
+          <div style="background:var(--white);border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:11px;color:var(--text2);margin-bottom:8px;">Phase 1: Discovery and requirements gathering…</div>
+          <div style="font-size:11px;margin-bottom:6px;color:var(--text3);">Assumptions</div>
+          <div style="background:var(--white);border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:11px;color:var(--text2);margin-bottom:10px;">Client will provide access to existing systems…</div>
+          <div style="display:flex;justify-content:space-between;">
+            <button style="font-size:11px;padding:5px 12px;border:1px solid var(--border);border-radius:6px;background:transparent;color:var(--text2);cursor:pointer;">← Back</button>
+            <button style="font-size:11px;padding:5px 12px;border:1px solid var(--purple);border-radius:6px;background:var(--purple-light);color:var(--purple-dark);cursor:pointer;">Next: Timeline →</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Skip & return</h3>
+        <p>Optional sub-fields (like Exclusions) can be skipped and appear greyed out in the final document. Any step can be revisited before saving.</p>
+      </div>
+      <div class="card">
+        <h3>Save as draft</h3>
+        <p>Available at any step. Saves current progress and returns to the dashboard. Resume from the last completed step.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-label">Sections — required vs optional</div>
+  <div class="grid-2">
+    <div>
+      <div class="sec-row sec-required">Project info <span class="sec-tag">required</span></div>
+      <div class="sec-row sec-required">Scope of work — deliverables <span class="sec-tag">required</span></div>
+      <div class="sec-row sec-optional">Scope of work — exclusions <span class="sec-tag">optional</span></div>
+      <div class="sec-row sec-optional">Scope of work — assumptions <span class="sec-tag">optional</span></div>
+      <div class="sec-row sec-required">Timeline — start & end dates <span class="sec-tag">required</span></div>
+      <div class="sec-row sec-optional">Timeline — milestones <span class="sec-tag">optional</span></div>
+      <div class="sec-row sec-required">Budget — total value <span class="sec-tag">required</span></div>
+      <div class="sec-row sec-optional">Budget — line item breakdown <span class="sec-tag">optional</span></div>
+      <div class="sec-row sec-required">Resources — at least one <span class="sec-tag">required</span></div>
+      <div class="sec-row sec-required">Terms & conditions <span class="sec-tag">required</span></div>
+    </div>
+    <div class="card" style="align-self: start;">
+      <h3 style="margin-bottom: 10px;">After saving an SOW</h3>
+      <div class="flow-row"><span class="flow-step hl-purple">SOW saved as draft</span></div>
+      <div style="font-size:11px;color:var(--text3);padding:3px 10px;">↓</div>
+      <div class="flow-row"><span class="flow-step">Enable approvals? (optional)</span></div>
+      <div style="font-size:11px;color:var(--text3);padding:3px 10px;">↓</div>
+      <div class="flow-row"><span class="flow-step">Submit for approval OR mark final directly</span></div>
+      <div style="font-size:11px;color:var(--text3);padding:3px 10px;">↓</div>
+      <div class="flow-row"><span class="flow-step hl-teal">SOW finalised</span></div>
+      <div style="font-size:11px;color:var(--text3);padding:3px 10px;">↓</div>
+      <div class="flow-row"><span class="flow-step">Export PDF / create first CR</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 5: CR EDITOR -->
+<div class="page" id="p5">
+  <div class="page-header">
+    <div>
+      <div class="page-title">CR guided form</div>
+      <div class="page-desc">Shorter guided form for creating a Change Request. Only sections relevant to the selected change types are shown.</div>
+    </div>
+    <div class="page-number">05</div>
+  </div>
+
+  <div class="section-label">CR form steps</div>
+  <div class="grid-2" style="margin-bottom: 20px;">
+    <div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num" style="background:var(--teal-light);color:var(--teal-dark);">1</div>
+          <div class="step-content">
+            <div class="step-title">CR details</div>
+            <div class="step-desc">CR title, reason for change, date. Brief description of why this CR exists.</div>
+            <div class="step-note">Required · Always first step</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:var(--teal-light);color:var(--teal-dark);">2</div>
+          <div class="step-content">
+            <div class="step-title">Select parent</div>
+            <div class="step-desc">Link to an existing SOW or CR. Inherited values (budget, period, resources) are shown immediately. Or choose "No parent — standalone CR".</div>
+            <div class="step-note">Default: linked · Can be detached</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:var(--teal-light);color:var(--teal-dark);">3</div>
+          <div class="step-content">
+            <div class="step-title">What is changing?</div>
+            <div class="step-desc">Multi-select: Scope changes / Budget adjustment / Timeline extension / Resource changes. Only checked items generate a form section in step 4+.</div>
+            <div class="step-note">At least one required</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num" style="background:var(--teal-light);color:var(--teal-dark);">4+</div>
+          <div class="step-content">
+            <div class="step-title">Change sections (conditional)</div>
+            <div class="step-desc">One section per selected change type. Budget shows inherited total + delta field + new total. Timeline shows inherited period + extension + new end date.</div>
+            <div class="step-note">One step per selected change type only</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div class="screen-wrap">
+        <div class="screen-title-bar">
+          <div class="screen-dot" style="background: var(--teal);"></div>
+          CR form — step 3 (what is changing?)
+        </div>
+        <div class="screen-body">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px;">
+            <div style="font-size:11px;padding:7px 10px;border:1px solid var(--teal);background:var(--teal-light);border-radius:6px;color:var(--teal-dark);">✓ Budget adjustment</div>
+            <div style="font-size:11px;padding:7px 10px;border:1px solid var(--teal);background:var(--teal-light);border-radius:6px;color:var(--teal-dark);">✓ Timeline extension</div>
+            <div style="font-size:11px;padding:7px 10px;border:1px solid var(--border);background:var(--white);border-radius:6px;color:var(--text3);">Scope changes</div>
+            <div style="font-size:11px;padding:7px 10px;border:1px solid var(--border);background:var(--white);border-radius:6px;color:var(--text3);">Resource changes</div>
+          </div>
+          <div style="background:var(--white);border:1px solid var(--border);border-radius:6px;padding:8px;font-size:11px;color:var(--text2);">
+            2 sections will appear: Budget, Timeline.
+          </div>
+        </div>
+      </div>
+      <div class="screen-wrap">
+        <div class="screen-title-bar">
+          <div class="screen-dot" style="background: var(--amber);"></div>
+          CR form — step 4 (budget section)
+        </div>
+        <div class="screen-body">
+          <div class="field-row"><span class="field-label">Inherited budget</span><span class="field-val" style="font-weight:500;">$48,000</span><span class="field-tag ft-auto">from parent</span></div>
+          <div class="field-row"><span class="field-label">This CR adds</span><span class="field-val">+ $12,000</span></div>
+          <div class="field-row" style="background:var(--teal-light);padding:5px 8px;border-radius:4px;"><span class="field-label" style="color:var(--teal-dark);">New total</span><span class="field-val" style="font-weight:600;color:var(--teal-dark);">$60,000</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-label">CR section rules</div>
+  <div class="grid-2">
+    <div>
+      <div class="sec-row sec-required">CR details (title, reason, date) <span class="sec-tag">always shown</span></div>
+      <div class="sec-row sec-required">Parent selection <span class="sec-tag">always shown</span></div>
+      <div class="sec-row sec-required">What is changing — selector <span class="sec-tag">always shown</span></div>
+      <div class="sec-row sec-conditional">Scope changes section <span class="sec-tag">if selected</span></div>
+      <div class="sec-row sec-conditional">Budget adjustment section <span class="sec-tag">if selected</span></div>
+      <div class="sec-row sec-conditional">Timeline extension section <span class="sec-tag">if selected</span></div>
+      <div class="sec-row sec-conditional">Resource changes section <span class="sec-tag">if selected</span></div>
+    </div>
+    <div class="card" style="align-self: start;">
+      <h3 style="margin-bottom:10px;">Parent linking rules</h3>
+      <div class="field-row"><span class="field-label">Default</span><span class="field-val">Linked to an SOW or CR</span></div>
+      <div class="field-row"><span class="field-label">SOW as parent</span><span class="field-val">Typical for first CR on a project</span></div>
+      <div class="field-row"><span class="field-label">CR as parent</span><span class="field-val">Extending an existing CR chain</span></div>
+      <div class="field-row"><span class="field-label">Standalone</span><span class="field-val">No parent — all values manual</span></div>
+      <div class="field-row"><span class="field-label">Imported parent</span><span class="field-val">Parent was imported from old doc</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 6: IMPORT -->
+<div class="page" id="p6">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Import flow</div>
+      <div class="page-desc">Bringing existing SOWs or CRs into the app from old documents. Three import methods. Full review before saving.</div>
+    </div>
+    <div class="page-number">06</div>
+  </div>
+
+  <div class="section-label">Import scenarios</div>
+  <div class="grid-3" style="margin-bottom: 20px;">
+    <div class="card" style="border-left: 3px solid var(--purple);">
+      <div style="margin-bottom:6px;"><span class="badge badge-purple">Scenario A</span></div>
+      <h3>New to the app — have full history</h3>
+      <p>User has the original SOW and all CRs built outside the app. Upload SOW first to establish root, then upload each CR in chain order to reconstruct the full chain.</p>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--amber);">
+      <div style="margin-bottom:6px;"><span class="badge badge-amber">Scenario B</span></div>
+      <h3>New to the app — partial history</h3>
+      <p>User only has the most recent CR. Upload that CR and set it as the chain root. All future CRs extend from it. The app marks it as an imported root with a note that earlier history is unavailable.</p>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--teal);">
+      <div style="margin-bottom:6px;"><span class="badge badge-teal">Scenario C</span></div>
+      <h3>Ongoing user — found old SOW</h3>
+      <p>User has been building CRs standalone and later finds the original SOW. Import the SOW and link existing standalone CRs to it retrospectively.</p>
+    </div>
+  </div>
+
+  <div class="section-label">Import steps — full flow</div>
+  <div class="grid-2" style="margin-bottom: 20px;">
+    <div class="steps">
+      <div class="step">
+        <div class="step-num" style="background:var(--amber-light);color:var(--amber-dark);">1</div>
+        <div class="step-content">
+          <div class="step-title">Choose import method</div>
+          <div class="step-desc">Upload a file (Word, PDF), paste raw text, or connect a Google Doc link.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:var(--amber-light);color:var(--amber-dark);">2</div>
+        <div class="step-content">
+          <div class="step-title">Extraction</div>
+          <div class="step-desc">App parses the document and extracts key fields. Auto-maps detected sections to the app's standard structure.</div>
+          <div class="step-note">Confidence score shown per field: auto / check / not detected</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:var(--amber-light);color:var(--amber-dark);">3</div>
+        <div class="step-content">
+          <div class="step-title">Review extracted fields</div>
+          <div class="step-desc">All extracted values shown side by side with the original doc. Every field is editable regardless of confidence score.</div>
+          <div class="step-note">Fields tagged: auto (detected) · check (low confidence) · not detected (manual entry needed)</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:var(--amber-light);color:var(--amber-dark);">4</div>
+        <div class="step-content">
+          <div class="step-title">Review section mapping</div>
+          <div class="step-desc">App shows how each section of the uploaded doc maps to the app's sections. User can reassign any section that was mapped incorrectly.</div>
+          <div class="step-note">Unassigned sections flagged in amber — must be resolved or skipped</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:var(--amber-light);color:var(--amber-dark);">5</div>
+        <div class="step-content">
+          <div class="step-title">Set document type & role</div>
+          <div class="step-desc">Confirm: is this an SOW or a CR? If CR: set its parent (link to existing SOW or CR, or mark as chain root). If SOW: becomes root of a new or existing project.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:var(--amber-light);color:var(--amber-dark);">6</div>
+        <div class="step-content">
+          <div class="step-title">Save imported document</div>
+          <div class="step-desc">Saved with "imported" tag. Visible in chain view. All future CRs can extend from it normally.</div>
+          <div class="step-note">Imported docs are fully editable after saving</div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="screen-wrap">
+        <div class="screen-title-bar">
+          <div class="screen-dot" style="background: var(--amber);"></div>
+          Import review screen
+        </div>
+        <div class="screen-body">
+          <div style="font-size:11px;font-weight:500;margin-bottom:8px;">Extracted fields</div>
+          <div class="field-row"><span class="field-label">Budget</span><span class="field-val">$48,000</span><span class="field-tag ft-auto">auto</span></div>
+          <div class="field-row"><span class="field-label">Period</span><span class="field-val">Jan – Mar 2025</span><span class="field-tag ft-auto">auto</span></div>
+          <div class="field-row"><span class="field-label">Scope</span><span class="field-val" style="color:var(--text3);font-style:italic;">Not detected</span><span class="field-tag ft-check">check</span></div>
+          <div class="field-row"><span class="field-label">Resources</span><span class="field-val">2 found</span><span class="field-tag ft-auto">auto</span></div>
+          <div style="margin-top:10px;font-size:11px;font-weight:500;margin-bottom:6px;">Section mapping</div>
+          <div style="font-size:10px;padding:4px 8px;background:var(--teal-light);border-radius:5px;color:var(--teal-dark);margin-bottom:3px;">Section 2 → Scope of work ✓</div>
+          <div style="font-size:10px;padding:4px 8px;background:var(--amber-light);border-radius:5px;color:var(--amber-dark);margin-bottom:3px;">Section 5 → ? Unassigned — reassign ›</div>
+          <div style="font-size:10px;padding:4px 8px;background:var(--teal-light);border-radius:5px;color:var(--teal-dark);">Section 7 → Timeline ✓</div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Importing a chain</h3>
+        <p>Upload SOW first → save → then upload CR #1 and link to SOW → save → upload CR #2 and link to CR #1. The chain is reconstructed step by step. Each import goes through the full review flow.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 7: CHAIN VIEW -->
+<div class="page" id="p7">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Project & chain view</div>
+      <div class="page-desc">The main working area for a project. Shows the full SOW → CR chain. Click any node to open it. Extend any node with one click.</div>
+    </div>
+    <div class="page-number">07</div>
+  </div>
+
+  <div class="section-label">Page layout</div>
+  <div class="screen-wrap" style="margin-bottom: 20px;">
+    <div class="screen-title-bar">
+      <div class="screen-dot" style="background: var(--purple);"></div>
+      Project: Acme Corp — chain view
+    </div>
+    <div class="screen-body" style="display:flex;gap:0;padding:0;">
+      <div style="width:180px;flex-shrink:0;background:var(--white);border-right:1px solid var(--border);padding:12px;">
+        <div style="font-size:10px;font-weight:500;color:var(--text3);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.08em;">Chain</div>
+        <div style="font-size:11px;padding:5px 8px;border-radius:5px;background:var(--purple-light);color:var(--purple-dark);font-weight:500;margin-bottom:3px;">SOW <span class="status s-approved" style="float:right;">✓</span></div>
+        <div style="font-size:11px;padding:5px 8px;border-radius:5px;color:var(--text2);margin-bottom:3px;padding-left:18px;">CR #1 <span class="status s-approved" style="float:right;">✓</span></div>
+        <div style="font-size:11px;padding:5px 8px;border-radius:5px;color:var(--text2);margin-bottom:3px;padding-left:30px;">CR #2 <span class="status s-review" style="float:right;">…</span></div>
+        <div style="border-top:1px solid var(--border);margin:8px 0;"></div>
+        <div style="font-size:11px;padding:5px 8px;border-radius:5px;color:var(--blue);cursor:pointer;">+ Extend</div>
+      </div>
+      <div style="flex:1;padding:14px 16px;">
+        <div style="font-size:13px;font-weight:500;margin-bottom:4px;">SOW — Acme Corp</div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:12px;">Imported · v1 · <span class="status s-approved">Approved</span> · Jan – Mar 2025 · $48,000</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+          <span style="font-size:11px;padding:4px 10px;border-radius:99px;border:1px solid var(--border);background:var(--white);color:var(--text2);">Scope of work</span>
+          <span style="font-size:11px;padding:4px 10px;border-radius:99px;border:1px solid var(--border);background:var(--white);color:var(--text2);">Timeline</span>
+          <span style="font-size:11px;padding:4px 10px;border-radius:99px;border:1px solid var(--border);background:var(--white);color:var(--text2);">Budget</span>
+          <span style="font-size:11px;padding:4px 10px;border-radius:99px;border:1px solid var(--border);background:var(--white);color:var(--text2);">Resources</span>
+          <span style="font-size:11px;padding:4px 10px;border-radius:99px;border:1px solid var(--border);background:var(--white);color:var(--text2);">Terms</span>
+        </div>
+        <div style="font-size:11px;color:var(--teal);cursor:pointer;">→ Extend this SOW (create CR #1)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">Chain interactions</div>
+  <div class="grid-3">
+    <div class="card">
+      <h3>Open any node</h3>
+      <p>Click any SOW or CR in the sidebar to open it in the main panel. View all sections, inherited values, and running totals.</p>
+    </div>
+    <div class="card">
+      <h3>Extend any node</h3>
+      <p>"Extend" button appears on every node. Creates a new CR with the clicked node as its parent. Launches the CR guided form with inherited values pre-filled.</p>
+    </div>
+    <div class="card">
+      <h3>Chain running totals</h3>
+      <p>The chain header always shows the cumulative budget (sum of SOW + all CRs) and the full engagement period (earliest start to latest end date).</p>
+    </div>
+    <div class="card">
+      <h3>Origin tags</h3>
+      <p>Each node shows whether it was built in the app or imported. Imported nodes show which fields were auto-extracted vs manually entered.</p>
+    </div>
+    <div class="card">
+      <h3>Reorder / relink</h3>
+      <p>A CR's parent can be changed after creation (e.g. relink from CR #1 to SOW directly). The app recalculates all running totals after relinking.</p>
+    </div>
+    <div class="card">
+      <h3>Chain root options</h3>
+      <p>SOW is the default root. If no SOW exists, the earliest imported CR becomes the root. Any node can be manually set as root from its settings panel.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 8: APPROVALS -->
+<div class="page" id="p8">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Approval flow</div>
+      <div class="page-desc">Optional per document. When enabled: add approvers, they get an email link, they approve or request changes, status is tracked per person.</div>
+    </div>
+    <div class="page-number">08</div>
+  </div>
+
+  <div class="section-label">Approval flow steps</div>
+  <div class="grid-2" style="margin-bottom: 20px;">
+    <div class="steps">
+      <div class="step">
+        <div class="step-num" style="background:var(--blue-light);color:var(--blue-dark);">1</div>
+        <div class="step-content">
+          <div class="step-title">Enable approvals (optional toggle)</div>
+          <div class="step-desc">Off by default. Toggle on per document. Can be enabled or disabled while document is in Draft status.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:var(--blue-light);color:var(--blue-dark);">2</div>
+        <div class="step-content">
+          <div class="step-title">Add approvers</div>
+          <div class="step-desc">Enter name and email for each approver. No app account required. Multiple approvers supported — all must approve before document is final.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:var(--blue-light);color:var(--blue-dark);">3</div>
+        <div class="step-content">
+          <div class="step-title">Submit for approval</div>
+          <div class="step-desc">Each approver receives an email with a unique review link. Email contains the document summary and a direct link to the review page.</div>
+          <div class="step-note">No login required for approvers</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:var(--blue-light);color:var(--blue-dark);">4</div>
+        <div class="step-content">
+          <div class="step-title">Approver reviews</div>
+          <div class="step-desc">Approver opens the link, sees a read-only view of the document, and either clicks Approve or clicks Request Changes and leaves a comment.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:var(--blue-light);color:var(--blue-dark);">5</div>
+        <div class="step-content">
+          <div class="step-title">Track status</div>
+          <div class="step-desc">Approval panel shows each approver's status (pending / approved / changes requested), timestamp, and any comments left.</div>
+          <div class="step-note">Document becomes final only when ALL approvers have approved</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:var(--blue-light);color:var(--blue-dark);">6</div>
+        <div class="step-content">
+          <div class="step-title">Address feedback & resubmit</div>
+          <div class="step-desc">If any approver requests changes: edit the document, then resubmit. All approvers are notified again. Previous comments remain visible.</div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="screen-wrap">
+        <div class="screen-title-bar">
+          <div class="screen-dot" style="background: var(--blue);"></div>
+          Approval panel
+        </div>
+        <div class="screen-body">
+          <div class="approver-row">
+            <div class="avatar" style="background:var(--purple-light);color:var(--purple-dark);">JD</div>
+            <div style="flex:1;">Jane Doe <span style="color:var(--text3);font-size:11px;">· Manager</span></div>
+            <div style="text-align:right;"><span class="status s-approved">Approved</span><div style="font-size:9px;color:var(--text3);margin-top:2px;">Mar 12, 10:42am</div></div>
+          </div>
+          <div class="approver-row">
+            <div class="avatar" style="background:var(--coral-light);color:var(--coral-dark);">MK</div>
+            <div style="flex:1;">Mike K. <span style="color:var(--text3);font-size:11px;">· Director</span></div>
+            <div style="text-align:right;"><span class="status s-review">Changes requested</span><div style="font-size:9px;color:var(--text3);margin-top:2px;">Mar 12, 2:15pm</div></div>
+          </div>
+          <div style="margin-top:10px;background:var(--white);border:1px solid var(--border);border-radius:6px;padding:8px;">
+            <div style="font-size:10px;font-weight:500;margin-bottom:3px;">Mike K. · comment</div>
+            <div style="font-size:11px;color:var(--text2);">"Please revise the budget section — contingency line missing."</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>No approvals — direct finalise</h3>
+        <p>When approvals are off, the author can mark the document as Final directly from the document page. Status moves from Draft → Final immediately.</p>
+      </div>
+      <div class="card">
+        <h3>Approver review page</h3>
+        <p>A lightweight read-only page accessible via the email link. Shows the full document with all sections. Two action buttons: Approve and Request Changes (with comment field). No other functionality — approvers cannot edit.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 9: EXPORT -->
+<div class="page" id="p9">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Export & sharing</div>
+      <div class="page-desc">Once a document is final: export to PDF, share a link, view version history, or download Word.</div>
+    </div>
+    <div class="page-number">09</div>
+  </div>
+
+  <div class="section-label">Export options</div>
+  <div class="grid-2" style="margin-bottom: 20px;">
+    <div class="grid-2" style="grid-template-columns: 1fr 1fr; align-content: start; gap: 12px;">
+      <div class="card" style="border-left: 3px solid var(--teal);">
+        <div style="margin-bottom:6px;"><span class="badge badge-teal">Export</span></div>
+        <h3>PDF export</h3>
+        <p>Clean formatted PDF ready to share with clients or other teams. Includes all sections, document metadata, and approval status if applicable.</p>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--blue);">
+        <div style="margin-bottom:6px;"><span class="badge badge-blue">Export</span></div>
+        <h3>Word / DOCX</h3>
+        <p>Editable Word document. Useful when clients or other teams need to make further edits outside the app.</p>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--purple);">
+        <div style="margin-bottom:6px;"><span class="badge badge-purple">Share</span></div>
+        <h3>Share link</h3>
+        <p>Read-only link to the document. Anyone with the link can view the current version. Can be revoked at any time.</p>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--amber);">
+        <div style="margin-bottom:6px;"><span class="badge badge-amber">History</span></div>
+        <h3>Version history</h3>
+        <p>Every save creates a version. View any previous version, see what changed between versions, restore an older version if needed.</p>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="screen-wrap">
+        <div class="screen-title-bar">
+          <div class="screen-dot" style="background: var(--teal);"></div>
+          Export panel
+        </div>
+        <div class="screen-body">
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:var(--white);border:1px solid var(--border);border-radius:6px;font-size:11px;">
+              <span>Export as PDF</span><span style="color:var(--teal);font-size:12px;">↓</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:var(--white);border:1px solid var(--border);border-radius:6px;font-size:11px;">
+              <span>Export as Word (.docx)</span><span style="color:var(--blue);font-size:12px;">↓</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:var(--white);border:1px solid var(--border);border-radius:6px;font-size:11px;">
+              <span>Copy share link</span><span style="color:var(--purple);font-size:12px;">⎘</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:var(--white);border:1px solid var(--border);border-radius:6px;font-size:11px;">
+              <span>Version history</span><span style="color:var(--amber);font-size:12px;">⟳</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>When can you export?</h3>
+        <p>PDF and Word export are available on any document in Draft or Final status. Share links are available on Final documents only. Version history is always available.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 10: TEMPLATES -->
+<div class="page" id="p10">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Templates</div>
+      <div class="page-desc">Default templates for SOW and CR. Users can also save any completed document as a custom template for future reuse.</div>
+    </div>
+    <div class="page-number">10</div>
+  </div>
+
+  <div class="section-label">Template types</div>
+  <div class="grid-2" style="margin-bottom: 20px;">
+    <div class="card" style="border-left: 3px solid var(--purple);">
+      <div style="margin-bottom:8px;"><span class="badge badge-purple">Default templates</span></div>
+      <h3>Built-in templates</h3>
+      <p>Two default templates ship with the app: Standard SOW (all 6 sections with placeholder hints) and Standard CR (change-type driven, shorter). Always available, cannot be deleted.</p>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--teal);">
+      <div style="margin-bottom:8px;"><span class="badge badge-teal">Custom templates</span></div>
+      <h3>Saved by user</h3>
+      <p>Any completed SOW or CR can be saved as a template. Common use: save an Acme Corp SOW as a template so the next engagement for the same client starts pre-filled.</p>
+    </div>
+  </div>
+
+  <div class="section-label">Template management screen</div>
+  <div class="screen-wrap" style="margin-bottom: 20px;">
+    <div class="screen-title-bar">
+      <div class="screen-dot" style="background: var(--amber);"></div>
+      Templates library
+    </div>
+    <div class="screen-body">
+      <div style="font-size:11px;font-weight:500;color:var(--text3);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.08em;font-size:10px;">Default</div>
+      <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:10px;padding:7px 10px;background:var(--purple-light);border:1px solid #AFA9EC;border-radius:7px;font-size:11px;">
+          <span style="font-weight:500;color:var(--purple-dark);flex:1;">Standard SOW</span>
+          <span style="color:var(--text3);font-size:10px;">6 sections · placeholder hints</span>
+          <span style="color:var(--purple);font-size:10px;">Use →</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:7px 10px;background:var(--teal-light);border:1px solid #5DCAA5;border-radius:7px;font-size:11px;">
+          <span style="font-weight:500;color:var(--teal-dark);flex:1;">Standard CR</span>
+          <span style="color:var(--text3);font-size:10px;">Change-type driven · fewer sections</span>
+          <span style="color:var(--teal);font-size:10px;">Use →</span>
+        </div>
+      </div>
+      <div style="font-size:10px;font-weight:500;color:var(--text3);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.08em;">Your templates</div>
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <div style="display:flex;align-items:center;gap:10px;padding:7px 10px;background:var(--white);border:1px solid var(--border);border-radius:7px;font-size:11px;">
+          <span style="font-weight:500;flex:1;">Acme Corp SOW</span>
+          <span style="color:var(--text3);font-size:10px;">Saved Mar 2025 · SOW</span>
+          <span style="color:var(--purple);font-size:10px;">Use →</span>
+          <span style="color:var(--text3);font-size:10px;">Edit · Delete</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:7px 10px;background:var(--white);border:1px solid var(--border);border-radius:7px;font-size:11px;">
+          <span style="font-weight:500;flex:1;">NovaTech CR extension</span>
+          <span style="color:var(--text3);font-size:10px;">Saved Jan 2025 · CR</span>
+          <span style="color:var(--purple);font-size:10px;">Use →</span>
+          <span style="color:var(--text3);font-size:10px;">Edit · Delete</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">How to save a template</div>
+  <div class="grid-3">
+    <div class="card">
+      <div style="margin-bottom:6px;"><span class="badge badge-gray">Step 1</span></div>
+      <h3>Open any completed doc</h3>
+      <p>SOW or CR in any status (Draft, In Review, Final). The "Save as template" option is in the document actions menu.</p>
+    </div>
+    <div class="card">
+      <div style="margin-bottom:6px;"><span class="badge badge-gray">Step 2</span></div>
+      <h3>Name the template</h3>
+      <p>Give it a descriptive name (e.g. "Acme Corp SOW" or "Standard 3-month extension CR"). Choose whether to include real values or replace with placeholder hints.</p>
+    </div>
+    <div class="card">
+      <div style="margin-bottom:6px;"><span class="badge badge-gray">Step 3</span></div>
+      <h3>Use it next time</h3>
+      <p>Template appears in the library. When selected, it pre-fills the guided form. All fields remain editable — the template is a starting point, not a lock.</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
